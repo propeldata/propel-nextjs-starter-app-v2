@@ -213,7 +213,7 @@ export function Dashboard(props: Props) {
               <Box style={{ gridColumn: "1 / -1" }}>
                 <Card>
                   <Heading size="6" as="h2" style={{ margin: 0 }}>
-                    Daily orders
+                    {chart1Label}
                   </Heading>
                   <TimeSeries
                     variant="bar"
@@ -235,7 +235,7 @@ export function Dashboard(props: Props) {
               <Box style={{ gridColumn: "1 / -1" }}>
                 <Card>
                   <Heading size="6" as="h2" style={{ margin: 0 }}>
-                    Revenue
+                    {chart2Label}
                   </Heading>
                   <TimeSeries
                     variant="bar"
