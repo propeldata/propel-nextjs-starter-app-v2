@@ -15,16 +15,19 @@ import {
 import { gray } from "@radix-ui/colors";
 
 // Data pool name
-const dataPoolName = "flattened_orders";
-const filter1 = "restaurant_name";
-const filter2 = "taco_name";
-const filter1Label = "Restaurant...";
-const filter2Label = "Taco...";
-const total_price = "total_price";
+const dataPoolName = "flattened_orders"
+const filter1 = "restaurant_name"
+const filter2 = "taco_name"
+const filter1Label = "Restaurant..."
+const filter2Label = "Taco..."
+const measure = "total_price"
+const counter1Label = "Orders"
+const counter2Label = "Revenue"
+const counter3Label = "Average order"
+const chart1Label = "Daily orders"
+const chart2Label = "Revenue"
 
-const refetchInterval = 10000; // 10 seconds refresh interval
-
-const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const refetchInterval = 10000 // 10 seconds refresh interval
 
 interface Props {
   accessToken: string;
@@ -98,7 +101,7 @@ export function Dashboard(props: Props) {
                   gap: "16px",
                 }}
               >
-                <TimeRangePicker defaultValue={{ value: "last-30-days" }} />
+                <TimeRangePicker defaultValue={{ value: "today" }} />
               </Box>
               {/* New row with three columns */}
               <Box
@@ -121,7 +124,7 @@ export function Dashboard(props: Props) {
                   }}
                 >
                   <Card>
-                    <Text style={{ margin: 0 }}>Orders</Text>
+                    <Text style={{ margin: 0 }}>{counter1Label}</Text>
                     <br />
                     <Counter
                       localize
@@ -151,15 +154,18 @@ export function Dashboard(props: Props) {
                   }}
                 >
                   <Card>
-                    <Text style={{ margin: 0 }}>Revenue</Text>
+                    <Text style={{ margin: 0 }}>{counter2Label}</Text>
                     <br />
                     <Counter
                       localize
-                      prefixValue=""
+                      prefixValue="$"
                       query={{
                         metric: {
-                          count: {
+                          sum: {
                             dataPool: { name: dataPoolName },
+                            measure: {
+                              columnName: measure,
+                            },
                           },
                         },
                         timeRange: {
@@ -181,16 +187,17 @@ export function Dashboard(props: Props) {
                   }}
                 >
                   <Card>
-                    <Text style={{ margin: 0 }}>Average revenue per order</Text>
+                    <Text style={{ margin: 0 }}>{counter3Label}</Text>
                     <br />
                     <Counter
                       localize
-                      prefixValue=""
+                      prefixValue="$"
                       query={{
                         metric: {
-                          count: {
+                          custom: {
                             dataPool: { name: dataPoolName },
-                          },
+                            expression: `SUM(${measure}) / COUNT()`,
+                          }
                         },
                         timeRange: {
                           relative: RelativeTimeRange.LastNDays,
@@ -204,46 +211,63 @@ export function Dashboard(props: Props) {
               </Box>
               {/* New row with one column */}
               <Box style={{ gridColumn: "1 / -1" }}>
-                <Heading size="6" as="h2">
-                  Daily orders
-                </Heading>
-                <Text>Content for the new row 1 goes here.</Text>
-                <TimeSeries
-                  variant="bar"
-                  color="indigo"
-                  query={{
-                    metric: {
-                      count: {
-                        dataPool: { name: dataPoolName },
+                <Card>
+                  <Heading size="6" as="h2" style={{ margin: 0 }}>
+                    Daily orders
+                  </Heading>
+                  <TimeSeries
+                    variant="bar"
+                    color="indigo"
+                    query={{
+                      metric: {
+                        count: {
+                          dataPool: { name: dataPoolName },
+                        },
                       },
-                    },
-                    timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                    refetchInterval: refetchInterval,
-                    granularity: TimeSeriesGranularity.Day,
-                  }}
-                />
+                      timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                      refetchInterval: refetchInterval,
+                      granularity: TimeSeriesGranularity.Day,
+                    }}
+                    />
+                </Card>
               </Box>
               {/* Another new row with one column */}
               <Box style={{ gridColumn: "1 / -1" }}>
-                <Heading size="6" as="h2">
-                  Revenue
-                </Heading>
-                <Text>Content for the new row 2 goes here.</Text>
-                <TimeSeries
-                  variant="bar"
-                  query={{
-                    metric: {
-                      sum: {
-                        dataPool: { name: dataPoolName },
-                        measure: {
-                          columnName: "total_price",
+                <Card>
+                  <Heading size="6" as="h2" style={{ margin: 0 }}>
+                    Revenue
+                  </Heading>
+                  <TimeSeries
+                    variant="bar"
+                    query={{
+                      metric: {
+                        sum: {
+                          dataPool: { name: dataPoolName },
+                          measure: {
+                            columnName: measure,
+                          },
                         },
                       },
-                    },
-                    timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                    granularity: TimeSeriesGranularity.Day,
-                  }}
-                />
+                      timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                      granularity: TimeSeriesGranularity.Day,
+                    }}
+                    // chartConfigProps={(config) => ({
+                    //   ...config,
+                    //   options: {
+                    //     scales: {
+                    //       y: {
+                    //         ticks: {
+                    //           // Prefix the Y-axis labels with $
+                    //           callback: function (value) {
+                    //             return '$' + value;
+                    //           }
+                    //         }
+                    //       }
+                    //     }
+                    //   }
+                    // })}
+                  />
+                </Card>
               </Box>
             </Grid>
           </Flex>
