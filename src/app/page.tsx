@@ -133,13 +133,13 @@ export default async function Home() {
                   justifySelf: 'center',
                   display: 'flex',
                   justifyContent: 'center',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
                 }}>
                   <Card>
                     <Text style={{ margin: 0 }}>Revenue</Text><br />
                     <Counter
                       localize
-                      prefixValue=""
+                      prefixValue="$"
                       query={{
                         metric: {
                           count: {
@@ -163,7 +163,7 @@ export default async function Home() {
                     <Text style={{ margin: 0 }}>Average revenue per order</Text><br />
                     <Counter
                       localize
-                      prefixValue=""
+                      prefixValue="$"
                       query={{
                         metric: {
                           count: {
@@ -178,43 +178,49 @@ export default async function Home() {
                 </Box>
               </Box>
               {/* New row with one column */}
-              <Box style={{ gridColumn: '1 / -1' }}>
-                <Heading size="6" as="h2">Daily orders</Heading>
-                <Text>Content for the new row 1 goes here.</Text>
-                <TimeSeries
-                  variant="bar"
-                  color="indigo"
-                  query={{
-                    metric: {
-                      count: {
-                        dataPool: { name: dataPoolName },
+              <Box style={{ gridColumn: '1 / -1'}}>
+                <Card>
+                  <Heading size="6" as="h2" style={{ margin: 0 }}>Daily orders</Heading>
+                  <Text>Content for the new row 1 goes here.</Text>
+                  <TimeSeries
+                    variant="bar"
+                    color="indigo"
+                    query={{
+                      metric: {
+                        count: {
+                          dataPool: { name: dataPoolName },
+                        },
                       },
-                    },
-                    timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
-                    refetchInterval: refetchInterval,
-                    granularity: "DAY" as TimeSeriesGranularity
-                  }}
-                />
+                      timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
+                      refetchInterval: refetchInterval,
+                      granularity: "DAY" as TimeSeriesGranularity
+                    }}
+                  />
+                </Card>
               </Box>
+
               {/* Another new row with one column */}
               <Box style={{ gridColumn: '1 / -1' }}>
-                <Heading size="6" as="h2">Revenue</Heading>
-                <Text>Content for the new row 2 goes here.</Text>
-                <TimeSeries
-                  variant="bar"
-                  query={{
-                    metric: {
-                      sum: {
-                        dataPool: { name: dataPoolName },
-                        measure: {
-                          columnName: "total_price"
-                        }
+                <Card>
+                  <Heading size="6" as="h2" style={{ margin: 0 }}>Revenue</Heading>
+                  <Text>Content for the new row 2 goes here.</Text>
+                  <TimeSeries
+                    variant="bar"
+                    query={{
+                      metric: {
+                        sum: {
+                          dataPool: { name: dataPoolName },
+                          measure: {
+                            columnName: "total_price"
+                          }
+                        },
                       },
-                    },
-                    timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
-                    granularity: "DAY" as TimeSeriesGranularity
-                  }}
-                />
+                      timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
+                      granularity: "DAY" as TimeSeriesGranularity,
+                      refetchInterval: refetchInterval,
+                    }}
+                  />
+                </Card>
               </Box>
             </Grid>
           </Flex>
