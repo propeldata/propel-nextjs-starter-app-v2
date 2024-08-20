@@ -17,7 +17,8 @@ import {
   TimeSeries,
   TimeSeriesGranularity,
   RelativeTimeRange,
-  Counter
+  Counter,
+  Typography
 } from "@propeldata/ui-kit";
 
 // Data pool name
@@ -102,23 +103,49 @@ export default async function Home() {
                 />
               </Box>
               {/* New row with three columns */}
-              <Box style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
-                <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Counter
-                    localize
-                    prefixValue="$"
-                    query={{
-                      metric: "Revenue",
-                      timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
-                    }}
-                    style={{ width: "fit-content" }}
-                    card
-                  />
+              <Box style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', justifyContent: 'center', alignItems: 'center' }}>
+                <Box style={{
+                  width: '100%',
+                  justifySelf: 'center',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column'
+                }}>
+                  <Card>
+                    <Typography as="p" style={{ margin: 0 }}>Orders</Typography>
+                    <Counter
+                      localize
+                      prefixValue=""
+                      query={{
+                        metric: {
+                          count: {
+                            dataPool: { name: dataPoolName },
+                          },
+                        },
+                        timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
+                        refetchInterval: refetchInterval,
+                      }}
+                    />
+                  </Card>
                 </Box>
-                <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box style={{
+                  width: '100%',
+                  justifySelf: 'start',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  gap: '16px',
+                  flexDirection: 'column'
+                }}>
                   <Card>Card content</Card>
                 </Box>
-                <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box style={{
+                  width: '100%',
+                  justifySelf: 'start',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  gap: '16px',
+                  flexDirection: 'column'
+                }}>
                   <Card>Card content</Card>
                 </Box>
               </Box>
@@ -156,7 +183,7 @@ export default async function Home() {
                         }
                       },
                     },
-                    timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 90 },
+                    timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
                     granularity: "DAY" as TimeSeriesGranularity
                   }}
                 />
