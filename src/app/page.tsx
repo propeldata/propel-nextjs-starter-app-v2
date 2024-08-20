@@ -112,7 +112,7 @@ export default async function Home() {
                   flexDirection: 'column'
                 }}>
                   <Card>
-                    <Typography as="p" style={{ margin: 0 }}>Orders</Typography>
+                    <Text style={{ margin: 0 }}>Orders</Text><br/>
                     <Counter
                       localize
                       prefixValue=""
@@ -130,23 +130,51 @@ export default async function Home() {
                 </Box>
                 <Box style={{
                   width: '100%',
-                  justifySelf: 'start',
+                  justifySelf: 'center',
                   display: 'flex',
-                  justifyContent: 'flex-start',
-                  gap: '16px',
+                  justifyContent: 'center',
                   flexDirection: 'column'
                 }}>
-                  <Card>Card content</Card>
+                  <Card>
+                    <Text style={{ margin: 0 }}>Revenue</Text><br />
+                    <Counter
+                      localize
+                      prefixValue=""
+                      query={{
+                        metric: {
+                          count: {
+                            dataPool: { name: dataPoolName },
+                          },
+                        },
+                        timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
+                        refetchInterval: refetchInterval,
+                      }}
+                    />
+                  </Card>
                 </Box>
                 <Box style={{
                   width: '100%',
-                  justifySelf: 'start',
+                  justifySelf: 'center',
                   display: 'flex',
-                  justifyContent: 'flex-start',
-                  gap: '16px',
+                  justifyContent: 'center',
                   flexDirection: 'column'
                 }}>
-                  <Card>Card content</Card>
+                  <Card>
+                    <Text style={{ margin: 0 }}>Average revenue per order</Text><br />
+                    <Counter
+                      localize
+                      prefixValue=""
+                      query={{
+                        metric: {
+                          count: {
+                            dataPool: { name: dataPoolName },
+                          },
+                        },
+                        timeRange: { relative: "LAST_N_DAYS" as RelativeTimeRange, n: 30 },
+                        refetchInterval: refetchInterval,
+                      }}
+                    />
+                  </Card>
                 </Box>
               </Box>
               {/* New row with one column */}
