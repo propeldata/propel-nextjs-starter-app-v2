@@ -14,7 +14,8 @@ import {
 } from "@propeldata/ui-kit";
 import { gray } from "@radix-ui/colors";
 
-// Data pool name
+// Configuration constants for the dashboard
+// Defines data pool, filter names, labels, measures, and refresh interval
 const dataPoolName = "flattened_orders"
 const filter1 = "restaurant_name"
 const filter2 = "taco_name"
@@ -27,7 +28,9 @@ const counter3Label = "Average order"
 const chart1Label = "Daily orders"
 const chart2Label = "Revenue"
 
-const refetchInterval = 10000 // 10 seconds refresh interval
+const refetchInterval = 1000 // 10 seconds refresh interval
+const timeGranularity = TimeSeriesGranularity.FifteenMinutes
+const timeRange = RelativeTimeRange.Today
 
 interface Props {
   accessToken: string;
@@ -136,8 +139,7 @@ export function Dashboard(props: Props) {
                           },
                         },
                         timeRange: {
-                          relative: RelativeTimeRange.LastNDays,
-                          n: 30,
+                          relative: timeRange,
                         },
                         refetchInterval: refetchInterval,
                       }}
@@ -169,8 +171,7 @@ export function Dashboard(props: Props) {
                           },
                         },
                         timeRange: {
-                          relative: RelativeTimeRange.LastNDays,
-                          n: 30,
+                          relative: timeRange,
                         },
                         refetchInterval: refetchInterval,
                       }}
@@ -200,8 +201,7 @@ export function Dashboard(props: Props) {
                           }
                         },
                         timeRange: {
-                          relative: RelativeTimeRange.LastNDays,
-                          n: 30,
+                          relative: timeRange,
                         },
                         refetchInterval: refetchInterval,
                       }}
@@ -224,11 +224,13 @@ export function Dashboard(props: Props) {
                           dataPool: { name: dataPoolName },
                         },
                       },
-                      timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                      timeRange: {
+                        relative: timeRange,
+                      },
                       refetchInterval: refetchInterval,
-                      granularity: TimeSeriesGranularity.Day,
+                      granularity: timeGranularity,
                     }}
-                    />
+                  />
                 </Card>
               </Box>
               {/* Another new row with one column */}
@@ -248,8 +250,11 @@ export function Dashboard(props: Props) {
                           },
                         },
                       },
-                      timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                      granularity: TimeSeriesGranularity.Day,
+                      timeRange: {
+                        relative: timeRange,
+                      },
+                      refetchInterval: refetchInterval,
+                      granularity: timeGranularity,
                     }}
                     // chartConfigProps={(config) => ({
                     //   ...config,
