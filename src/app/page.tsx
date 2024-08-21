@@ -27,7 +27,8 @@ const counter3Label = "Average order";
 const chart1Label = "Daily orders";
 const chart2Label = "Revenue";
 
-const refetchInterval = 10000; // 10 seconds refresh interval
+const refetchInterval = 1000; // 1 second refresh interval
+const timeGranularity = TimeSeriesGranularity.Day;
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {
@@ -62,7 +63,7 @@ export default async function Home() {
           }}
         >
           <Flex direction="column" gap="4">
-            <Heading as="h1">Dashboard</Heading>
+            <Heading as="h1">My Dashboard</Heading>
             <Text size="9">
               Welcome to your Propel dashboard. Here you&apos;ll find an
               overview of your data.
@@ -227,7 +228,7 @@ export default async function Home() {
                         },
                       },
                       refetchInterval: refetchInterval,
-                      granularity: TimeSeriesGranularity.Day,
+                      granularity: timeGranularity,
                     }}
                   />
                 </Card>
@@ -249,7 +250,7 @@ export default async function Home() {
                           },
                         },
                       },
-                      granularity: TimeSeriesGranularity.Day,
+                      granularity: timeGranularity,
                     }}
                     // chartConfigProps={(config) => ({
                     //   ...config,
