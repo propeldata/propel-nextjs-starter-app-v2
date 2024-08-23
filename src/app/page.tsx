@@ -28,7 +28,7 @@ const chart1Label = "Daily orders";
 const chart2Label = "Revenue";
 
 const refetchInterval = 1000; // 1 second refresh interval
-const timeGranularity = TimeSeriesGranularity.Day;
+const timeGranularity = TimeSeriesGranularity.FifteenMinutes;
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {

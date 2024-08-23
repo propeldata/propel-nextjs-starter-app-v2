@@ -12,8 +12,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/propel-next-js-starter-app.git
-   cd propel-next-js-starter-app
+   git clone https://github.com/propeldata/propel-nextjs-starter-app-v2.git && cd propel-nextjs-starter-app-v2
    ```
 
 2. Install dependencies:
@@ -55,9 +54,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 To learn more about the technologies used in this project, check out the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Propel Data Documentation](https://docs.propeldata.com)
-- [Radix UI Documentation](https://www.radix-ui.com/docs/primitives/overview/introduction)
+- [Next.js documentation](https://nextjs.org/docs)
+- [Propel documentation](https://www.propeldata.com/docs)
+- [Radix UI documentation](https://www.radix-ui.com/docs/primitives/overview/introduction)
 
 ## Customization
 
