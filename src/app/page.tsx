@@ -15,17 +15,17 @@ import {
 } from "@propeldata/ui-kit";
 import { gray } from "@radix-ui/colors";
 
-const dataPoolName = "flattened_orders";
-const filter1 = "restaurant_name";
-const filter2 = "taco_name";
-const filter1Label = "Restaurant...";
-const filter2Label = "Taco...";
-const measure = "total_price";
-const counter1Label = "Orders";
-const counter2Label = "Revenue";
-const counter3Label = "Average order";
-const chart1Label = "Daily orders";
-const chart2Label = "Revenue";
+const dataPoolName = "";
+const filter1 = "";
+const filter2 = "";
+const filter1Label = "";
+const filter2Label = "";
+const measure = "";
+const counter1Label = "";
+const counter2Label = "";
+const counter3Label = "";
+const chart1Label = "";
+const chart2Label = "";
 
 const refetchInterval = 1000; // 1 second refresh interval
 const timeGranularity = TimeSeriesGranularity.FifteenMinutes;
