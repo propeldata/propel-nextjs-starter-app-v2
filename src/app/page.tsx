@@ -64,7 +64,7 @@ export default async function Home() {
         >
           <Flex direction="column" gap="4">
             <Heading as="h1">My Dashboard</Heading>
-            <Text size="9">
+            <Text size="3">
               Welcome to your Propel dashboard. Here you&apos;ll find an
               overview of your data.
             </Text>
