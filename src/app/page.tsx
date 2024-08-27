@@ -1,6 +1,6 @@
 import { ClientCredentials, ModuleOptions } from "simple-oauth2";
 
-import { Container, Flex, Grid, Box, Heading, Text } from "@radix-ui/themes";
+import { Container, Flex, Grid, Heading, Text } from "@radix-ui/themes";
 import {
   AccessTokenProvider,
   Card,
@@ -15,17 +15,17 @@ import {
 } from "@propeldata/ui-kit";
 import { gray } from "@radix-ui/colors";
 
-const dataPoolName = "";
-const filter1 = "";
-const filter2 = "";
-const filter1Label = "";
-const filter2Label = "";
-const measure = "";
-const counter1Label = "";
-const counter2Label = "";
-const counter3Label = "";
-const chart1Label = "";
-const chart2Label = "";
+const dataPoolName = "flattened_orders";
+const filter1 = "restaurant_name";
+const filter2 = "taco_name";
+const filter1Label = "Restaurant...";
+const filter2Label = "Taco...";
+const measure = "total_price";
+const counter1Label = "Orders";
+const counter2Label = "Revenue";
+const counter3Label = "Average order";
+const chart1Label = "Daily orders";
+const chart2Label = "Revenue";
 
 const refetchInterval = 1000; // 1 second refresh interval
 const timeGranularity = TimeSeriesGranularity.FifteenMinutes;
@@ -68,77 +68,56 @@ export default async function Home() {
               Welcome to your Propel dashboard. Here you&apos;ll find an
               overview of your data.
             </Text>
-            <Grid
-              style={{
-                display: "grid",
-                gridTemplateColumns: "2fr 1fr",
-                gap: "16px",
-                paddingTop: "1rem",
-              }}
-            >
               {/* filters and time range picker */}
-              <Box
-                style={{
-                  padding: "1rem",
-                  width: "100%",
-                  justifySelf: "start",
-                  backgroundColor: gray.gray2,
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  gap: "16px",
-                }}
-              >
-                <SimpleFilter
-                  query={{
-                    columnName: filter1,
-                    dataPool: { name: dataPoolName },
-                    maxValues: 1000,
-                  }}
-                  autocompleteProps={{ placeholder: filter1Label }}
-                />
-                <SimpleFilter
-                  query={{
-                    columnName: filter2,
-                    dataPool: { name: dataPoolName },
-                    maxValues: 1000,
-                  }}
-                  autocompleteProps={{ placeholder: filter2Label }}
-                />
-              </Box>
-              <Box
-                style={{
-                  padding: "1rem",
-                  width: "100%",
-                  justifySelf: "start",
-                  backgroundColor: gray.gray2,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "16px",
-                }}
-              >
-                <TimeRangePicker defaultValue={{ value: "today" }} />
-              </Box>
-              {/* New row with three columns */}
-              <Box
-                style={{
-                  gridColumn: "1 / -1",
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: "16px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Box
+              <Flex width="100%">
+                <Flex
                   style={{
-                    width: "100%",
-                    justifySelf: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
+                    padding: "1rem",
+                    justifySelf: "start",
+                    backgroundColor: gray.gray2,
+                    gap: "16px",
+                    width: "100%"
                   }}
                 >
-                  <Card>
+                  <SimpleFilter
+                    query={{
+                      columnName: filter1,
+                      dataPool: { name: dataPoolName },
+                      maxValues: 1000,
+                    }}
+                    autocompleteProps={{ placeholder: filter1Label }}
+                  />
+                  <SimpleFilter
+                    query={{
+                      columnName: filter2,
+                      dataPool: { name: dataPoolName },
+                      maxValues: 1000,
+                    }}
+                    autocompleteProps={{ placeholder: filter2Label }}
+                  />
+                </Flex>
+                <Flex
+                  style={{
+                    padding: "1rem",
+                    width: "100%",
+                    justifySelf: "start",
+                    backgroundColor: gray.gray2,
+                    justifyContent: "flex-end",
+                    gap: "16px",
+                  }}
+                >
+                  <TimeRangePicker defaultValue={{ value: "today" }} />
+                </Flex>
+              </Flex>
+              {/* New row with three columns */}
+              <Grid columns={{ initial: "1", md: "3" }} gap="4" align="center">
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  width="100%"
+                >
+                  <Card style={{ width: "100%" }}>
                     <Text style={{ margin: 0 }}>{counter1Label}</Text>
                     <br />
                     <Counter
@@ -154,17 +133,14 @@ export default async function Home() {
                       }}
                     />
                   </Card>
-                </Box>
-                <Box
-                  style={{
-                    width: "100%",
-                    justifySelf: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  style={{ width: "100%" }}
                 >
-                  <Card>
+                  <Card style={{ width: "100%" }}>
                     <Text style={{ margin: 0 }}>{counter2Label}</Text>
                     <br />
                     <Counter
@@ -183,17 +159,14 @@ export default async function Home() {
                       }}
                     />
                   </Card>
-                </Box>
-                <Box
-                  style={{
-                    width: "100%",
-                    justifySelf: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  style={{ width: "100%" }}
                 >
-                  <Card>
+                  <Card style={{ width: "100%" }}>
                     <Text style={{ margin: 0 }}>{counter3Label}</Text>
                     <br />
                     <Counter
@@ -210,10 +183,10 @@ export default async function Home() {
                       }}
                     />
                   </Card>
-                </Box>
-              </Box>
+                </Flex>
+              </Grid>
               {/* New row with one column */}
-              <Box style={{ gridColumn: "1 / -1" }}>
+              <Flex direction="column" style={{ width: "100%" }}>
                 <Card>
                   <Heading size="6" as="h2" style={{ margin: 0 }}>
                     {chart1Label}
@@ -232,9 +205,9 @@ export default async function Home() {
                     }}
                   />
                 </Card>
-              </Box>
+              </Flex>
               {/* Another new row with one column */}
-              <Box style={{ gridColumn: "1 / -1" }}>
+              <Flex direction="column" style={{ width: "100%" }}>
                 <Card>
                   <Heading size="6" as="h2" style={{ margin: 0 }}>
                     {chart2Label}
@@ -269,8 +242,7 @@ export default async function Home() {
                     // })}
                   />
                 </Card>
-              </Box>
-            </Grid>
+              </Flex>
           </Flex>
         </Container>
       </FilterProvider>
