@@ -18,17 +18,17 @@ import {
 } from "@propeldata/ui-kit";
 import { gray } from "@radix-ui/colors";
 
-const dataPoolName = ""
-const filter1 = ""
+const dataPoolName = "";
+const filter1 = "";
 const filter2 = ""
-const filter1Label = ""
+const filter1Label = "";
 const filter2Label = ""
 const measure = ""
-const counter1Label = ""
+const counter1Label = "";
 const counter2Label = ""
-const counter3Label = ""
-const chart1Label = ""
-const chart2Label = ""
+const counter3Label = "";
+const chart1Label = "";
+const chart2Label = "";
 
 const refetchInterval = 1000; // 1 second refresh interval
 const timeGranularity = TimeSeriesGranularity.Day;
