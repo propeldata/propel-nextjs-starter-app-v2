@@ -1,34 +1,37 @@
 import { ClientCredentials, ModuleOptions } from "simple-oauth2";
 
-import { Container, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import { Container } from "@radix-ui/themes";
+
 import {
   AccessTokenProvider,
+  Flex,
+  Grid,
+  Heading,
+  Text,
   Card,
   TimeRangePicker,
   SimpleFilter,
   FilterProvider,
   TimeSeries,
   TimeSeriesGranularity,
-  RelativeTimeRange,
   Counter,
-  Typography,
 } from "@propeldata/ui-kit";
 import { gray } from "@radix-ui/colors";
 
-const dataPoolName = "";
-const filter1 = "";
-const filter2 = "";
-const filter1Label = "";
-const filter2Label = "";
-const measure = "";
-const counter1Label = "";
-const counter2Label = "";
-const counter3Label = "";
-const chart1Label = "";
-const chart2Label = "";
+const dataPoolName = ""
+const filter1 = ""
+const filter2 = ""
+const filter1Label = ""
+const filter2Label = ""
+const measure = ""
+const counter1Label = ""
+const counter2Label = ""
+const counter3Label = ""
+const chart1Label = ""
+const chart2Label = ""
 
 const refetchInterval = 1000; // 1 second refresh interval
-const timeGranularity = TimeSeriesGranularity.FifteenMinutes;
+const timeGranularity = TimeSeriesGranularity.Day;
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {
