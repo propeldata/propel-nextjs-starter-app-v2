@@ -1,9 +1,8 @@
 import { ClientCredentials, ModuleOptions } from "simple-oauth2";
 
-import { Container } from "@radix-ui/themes";
-
 import {
   AccessTokenProvider,
+  Container,
   Flex,
   Grid,
   Heading,
