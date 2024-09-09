@@ -15,22 +15,21 @@ import {
   TimeSeriesGranularity,
   Counter,
 } from "@propeldata/ui-kit";
-import { gray } from "@radix-ui/colors";
+import { gray } from "@propeldata/ui-kit/colors"
 
-const dataPoolName = "TacoSoft Demo Data"
-const filter1 = "restaurant_name"
-const filter2 = "taco_name"
-const filter1Label = "Restaurant..."
-const filter2Label = "Taco..."
-const measure = "taco_total_price"
-const counter1Label = "Orders"
-const counter2Label = "Revenue"
-const counter3Label = "Average order"
-const chart1Label = "Daily orders"
-const chart2Label = "Revenue"
+const dataPoolName = "";
+const filter1 = "";
+const filter2 = ""
+const filter1Label = "";
+const filter2Label = ""
+const measure = ""
+const counter1Label = "";
+const counter2Label = ""
+const counter3Label = "";
+const chart1Label = "";
+const chart2Label = "";
 
 const refetchInterval = 1000; // 1 second refresh interval
-const timeGranularity = TimeSeriesGranularity.Day;
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {
@@ -108,9 +107,9 @@ export default async function Home() {
                     gap: "16px",
                   }}
                 >
-                  <TimeRangePicker defaultValue={{ value: "today" }} />
-                </Flex>
+                <TimeRangePicker defaultValue={{ value: "today" }} />
               </Flex>
+            </Flex>
               {/* New row with three columns */}
               <Grid columns={{ initial: "1", md: "3" }} gap="4" align="center">
                 <Flex
@@ -203,7 +202,7 @@ export default async function Home() {
                         },
                       },
                       refetchInterval: refetchInterval,
-                      granularity: timeGranularity,
+                      granularity: TimeSeriesGranularity.Day,
                     }}
                   />
                 </Card>
@@ -225,13 +224,17 @@ export default async function Home() {
                           },
                         },
                       },
-                      granularity: timeGranularity,
+                      refetchInterval: refetchInterval,
+                      granularity: TimeSeriesGranularity.Day,
                     }}
                     // chartConfigProps={(config) => ({
                     //   ...config,
                     //   options: {
+                    //     ...config.options,
                     //     scales: {
+                    //       ...config.options?.scales,
                     //       y: {
+                    //         ...config.options?.scales?.y,
                     //         ticks: {
                     //           // Prefix the Y-axis labels with $
                     //           callback: function (value) {
