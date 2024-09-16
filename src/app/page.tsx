@@ -12,6 +12,7 @@ import {
   SimpleFilter,
   FilterProvider,
   TimeSeries,
+  TimeGrainPicker,
   TimeSeriesGranularity,
   Counter,
 } from "@propeldata/ui-kit";
@@ -106,8 +107,14 @@ export default async function Home() {
                     justifyContent: "flex-end",
                     gap: "16px",
                   }}
-                >
-                <TimeRangePicker defaultValue={{ value: "today" }} />
+              >
+                <TimeGrainPicker
+                  defaultValue={TimeSeriesGranularity.FifteenMinutes}
+                  options={[TimeSeriesGranularity.FifteenMinutes, TimeSeriesGranularity.Hour, TimeSeriesGranularity.Day, TimeSeriesGranularity.Month, TimeSeriesGranularity.Year]}
+                />
+                <TimeRangePicker
+                  defaultValue={{ value: "this-month" }}
+                />
               </Flex>
             </Flex>
               {/* New row with three columns */}
@@ -201,8 +208,7 @@ export default async function Home() {
                           dataPool: { name: dataPoolName },
                         },
                       },
-                      refetchInterval: refetchInterval,
-                      granularity: TimeSeriesGranularity.Day,
+                      refetchInterval: refetchInterval
                     }}
                   />
                 </Card>
@@ -224,8 +230,7 @@ export default async function Home() {
                           },
                         },
                       },
-                      refetchInterval: refetchInterval,
-                      granularity: TimeSeriesGranularity.Day,
+                      refetchInterval: refetchInterval
                     }}
                     // chartConfigProps={(config) => ({
                     //   ...config,
