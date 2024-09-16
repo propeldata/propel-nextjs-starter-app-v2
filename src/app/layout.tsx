@@ -23,7 +23,7 @@ export default function RootLayout({
           grayColor="slate"
           panelBackground="solid"
           scaling="100%"
-          radius="small"
+          radius="none"
         >
           {children}
         </ThemeProvider>
