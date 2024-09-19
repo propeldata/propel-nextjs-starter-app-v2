@@ -426,7 +426,10 @@ export default async function Home() {
                     </Text>
                     <TimeSeries
                       variant="bar"
-                      accentColors={["cyan"]}
+                      accentColors={["grass"]}
+                      chartProps={{
+                        fillArea: true,
+                      }}
                       query={{
                         metric: {
                           sum: {
@@ -472,7 +475,6 @@ export default async function Home() {
                     </Text>
                     <TimeSeries
                       variant="bar"
-                      accentColors={["grass"]}
                       query={{
                         metric: {
                           custom: {
@@ -486,6 +488,7 @@ export default async function Home() {
                       otherColor="gray.gray5"
                       maxGroupBy={100}
                       stacked={false}
+                      showGroupByOther={false}
                     />
                   </Card>
                 </Flex>
