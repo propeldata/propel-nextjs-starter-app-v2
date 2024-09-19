@@ -24,55 +24,55 @@ import {
 import { gray } from "@propeldata/ui-kit/colors"
 
 // Constants
-const dataPoolName = "TacoSoft Demo Data"
-const filter1 = "restaurant_name"
-const filter2 = "taco_name"
-const filter1Label = "Restaurant..."
-const filter2Label = "Taco..."
-const measure = "taco_total_price"
-const metric1Label = "Orders"
-const metric2Label = "Revenue"
-const metric3Label = "Average order"
-const chart1Label = "Orders over time"
-const chart2Label = "Revenue over time"
-const chart3Label = "Average order over time"
-const metric1Breakdown1Field = "taco_name"
-const metric1Breakdown1Label = "Taco"
-const metric1Breakdown2Field = "tortilla_name"
-const metric1Breakdown2Label = "Tortilla"
-const metric1Breakdown3Field = "sauce_name"
-const metric1Breakdown3Label = "Sauce"
-const metric1Breakdown4Field = "restaurant_name"
-const metric1Breakdown4Label = "Restaurant"
-const metric1Breakdown5Field = "quantity"
-const metric1Breakdown5Label = "Items ordered"
-const metric1Breakdown6Field = "taco_total_price"
-const metric1Breakdown6Label = "Order dollar size"
+const DATA_POOL_NAME = "TacoSoft Demo Data"
+const FILTER1 = "restaurant_name"
+const FILTER2 = "taco_name"
+const FILTER1_LABEL = "Restaurant..."
+const FILTER2_LABEL = "Taco..."
+const MEASURE = "taco_total_price"
+const METRIC1_LABEL = "Orders"
+const METRIC2_LABEL = "Revenue"
+const METRIC3_LABEL = "Average order"
+const CHART1_LABEL = "Orders over time"
+const CHART2_LABEL = "Revenue over time"
+const CHART3_LABEL = "Average order over time"
+const METRIC1_BREAKDOWN1_FIELD = "taco_name"
+const METRIC1_BREAKDOWN1_LABEL = "Taco"
+const METRIC1_BREAKDOWN2_FIELD = "tortilla_name"
+const METRIC1_BREAKDOWN2_LABEL = "Tortilla"
+const METRIC1_BREAKDOWN3_FIELD = "sauce_name"
+const METRIC1_BREAKDOWN3_LABEL = "Sauce"
+const METRIC1_BREAKDOWN4_FIELD = "restaurant_name"
+const METRIC1_BREAKDOWN4_LABEL = "Restaurant"
+const METRIC1_BREAKDOWN5_FIELD = "quantity"
+const METRIC1_BREAKDOWN5_LABEL = "Items ordered"
+const METRIC1_BREAKDOWN6_FIELD = "taco_total_price"
+const METRIC1_BREAKDOWN6_LABEL = "Order dollar size"
 
 // Metrics
 let metric1 = {
   count: {
-    dataPool: { name: dataPoolName },
+    dataPool: { name: DATA_POOL_NAME },
   },
 }
 
 let metric2 = {
   sum: {
-    dataPool: { name: dataPoolName },
+    dataPool: { name: DATA_POOL_NAME },
     measure: {
-      columnName: measure,
+      columnName: MEASURE,
     },
   },
 }
 
 let metric3 = {
   custom: {
-    dataPool: { name: dataPoolName },
-    expression: `SUM(${measure}) / COUNT()`,
+    dataPool: { name: DATA_POOL_NAME },
+    expression: `SUM(${MEASURE}) / COUNT()`,
   },
 }
 
-const refetchInterval = 10000; // 1 second refresh interval
+const REFETCH_INTERVAL = 10000; // 1 second refresh interval
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {
@@ -129,19 +129,19 @@ export default async function Home() {
                 >
                   <SimpleFilter
                     query={{
-                      columnName: filter1,
-                      dataPool: { name: dataPoolName },
+                      columnName: FILTER1,
+                      dataPool: { name: DATA_POOL_NAME },
                       maxValues: 1000,
                     }}
-                    autocompleteProps={{ placeholder: filter1Label }}
+                    autocompleteProps={{ placeholder: FILTER1_LABEL }}
                   />
                   <SimpleFilter
                     query={{
-                      columnName: filter2,
-                      dataPool: { name: dataPoolName },
+                      columnName: FILTER2,
+                      dataPool: { name: DATA_POOL_NAME },
                       maxValues: 1000,
                     }}
-                    autocompleteProps={{ placeholder: filter2Label }}
+                    autocompleteProps={{ placeholder: FILTER2_LABEL }}
                   />
                 </Flex>
                 <Flex
@@ -172,14 +172,14 @@ export default async function Home() {
                 width="100%"
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{metric1Label}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC1_LABEL}</Text>
                   <br />
                   <Counter
                     localize
                     prefixValue=""
                     query={{
                       metric: metric1,
-                      refetchInterval: refetchInterval,
+                      refetchInterval: REFETCH_INTERVAL,
                     }}
                   />
                 </Card>
@@ -191,14 +191,14 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{metric2Label}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC2_LABEL}</Text>
                   <br />
                   <Counter
                     localize
                     prefixValue="$"
                     query={{
                       metric: metric2,
-                      refetchInterval: refetchInterval
+                      refetchInterval: REFETCH_INTERVAL
                     }}
                   />
                 </Card>
@@ -210,14 +210,14 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{metric3Label}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC3_LABEL}</Text>
                   <br />
                   <Counter
                     localize
                     prefixValue="$"
                     query={{
                       metric: metric3,
-                      refetchInterval: refetchInterval,
+                      refetchInterval: REFETCH_INTERVAL,
                     }}
                   />
                 </Card>
@@ -229,42 +229,42 @@ export default async function Home() {
               <Tabs.List>
                 <Tabs.Trigger value="orders">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{metric1Label}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC1_LABEL}</Text>
                     <br />
                     <Counter
                       localize
                       prefixValue=""
                       query={{
                         metric: metric1,
-                        refetchInterval: refetchInterval,
+                        refetchInterval: REFETCH_INTERVAL,
                       }}
                     />
                   </Card>
                 </Tabs.Trigger>
                 <Tabs.Trigger value="revenue">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{metric2Label}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC2_LABEL}</Text>
                     <br />
                     <Counter
                       localize
                       prefixValue="$"
                       query={{
                         metric: metric2,
-                        refetchInterval: refetchInterval
+                        refetchInterval: REFETCH_INTERVAL
                       }}
                     />
                   </Card>
                 </Tabs.Trigger>
                 <Tabs.Trigger value="average_order">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{metric3Label}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC3_LABEL}</Text>
                     <br />
                     <Counter
                       localize
                       prefixValue="$"
                       query={{
                         metric: metric3,
-                        refetchInterval: refetchInterval,
+                        refetchInterval: REFETCH_INTERVAL,
                       }}
                     />
                   </Card>
@@ -275,14 +275,14 @@ export default async function Home() {
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {chart1Label}
+                        {CHART1_LABEL}
                       </Text>
                       <TimeSeries
                         variant="bar"
                         query={{
                           metric: metric1,
-                          refetchInterval: refetchInterval,
-                          groupBy: [metric1Breakdown1Field],
+                          refetchInterval: REFETCH_INTERVAL,
+                          groupBy: [METRIC1_BREAKDOWN1_FIELD],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={8}
@@ -301,9 +301,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{ metric1Breakdown1Label }</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{ metric1Breakdown2Label }</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{ metric1Breakdown3Label }</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{ METRIC1_BREAKDOWN1_LABEL }</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{ METRIC1_BREAKDOWN2_LABEL }</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{ METRIC1_BREAKDOWN3_LABEL }</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -313,11 +313,11 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown1Field },
+                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -329,11 +329,11 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown2Field },
+                                  { columnName: METRIC1_BREAKDOWN2_FIELD },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -345,11 +345,11 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown3Field },
+                                  { columnName: METRIC1_BREAKDOWN3_FIELD },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -365,8 +365,8 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{ metric1Breakdown4Label }</Tabs.Trigger>
-                            <Tabs.Trigger value="quantity">{ metric1Breakdown5Label }</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{ METRIC1_BREAKDOWN4_LABEL }</Tabs.Trigger>
+                            <Tabs.Trigger value="quantity">{ METRIC1_BREAKDOWN5_LABEL }</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -378,9 +378,9 @@ export default async function Home() {
                               query={{
                                 metric: metric1,
                                 rowLimit: 100,
-                                dimension: { columnName: metric1Breakdown4Field },
+                                dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -394,9 +394,9 @@ export default async function Home() {
                               query={{
                                 metric: metric1,
                                 rowLimit: 100,
-                                dimension: { columnName: metric1Breakdown5Field },
+                                dimension: { columnName: METRIC1_BREAKDOWN5_FIELD },
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -412,7 +412,7 @@ export default async function Home() {
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {chart2Label}
+                        {CHART2_LABEL}
                       </Text>
                       <TimeSeries
                         variant="bar"
@@ -422,7 +422,7 @@ export default async function Home() {
                         }}
                         query={{
                           metric: metric2,
-                          refetchInterval: refetchInterval
+                          refetchInterval: REFETCH_INTERVAL
                         }}
                       // chartConfigProps={async (config) => {
                       //   "use server"
@@ -460,9 +460,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{metric1Breakdown1Label}</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{metric1Breakdown2Label}</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{metric1Breakdown3Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{METRIC1_BREAKDOWN1_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{METRIC1_BREAKDOWN2_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{METRIC1_BREAKDOWN3_LABEL}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -472,11 +472,11 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown1Field },
+                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -488,10 +488,10 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown2Field },
+                                  { columnName: METRIC1_BREAKDOWN2_FIELD },
                                 ],
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                               }}
                             />
@@ -504,10 +504,10 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown3Field },
+                                  { columnName: METRIC1_BREAKDOWN3_FIELD },
                                 ],
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                               }}
                             />
@@ -524,8 +524,8 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{metric1Breakdown4Label}</Tabs.Trigger>
-                            <Tabs.Trigger value="order_size">{metric1Breakdown6Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{METRIC1_BREAKDOWN4_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value="order_size">{METRIC1_BREAKDOWN6_LABEL}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -537,9 +537,9 @@ export default async function Home() {
                               query={{
                                 metric: metric2,
                                 rowLimit: 100,
-                                dimension: { columnName: metric1Breakdown4Field },
+                                dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -553,9 +553,9 @@ export default async function Home() {
                               query={{
                                 metric: metric2,
                                 rowLimit: 100,
-                                dimension: { columnName: metric1Breakdown6Field },
+                                dimension: { columnName: METRIC1_BREAKDOWN6_FIELD },
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
@@ -571,14 +571,14 @@ export default async function Home() {
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {chart3Label}
+                        {CHART3_LABEL}
                       </Text>
                       <TimeSeries
                         variant="bar"
                         query={{
                           metric: metric3,
-                          refetchInterval: refetchInterval,
-                          groupBy: [metric1Breakdown1Field],
+                          refetchInterval: REFETCH_INTERVAL,
+                          groupBy: [METRIC1_BREAKDOWN1_FIELD],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={100}
@@ -598,9 +598,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{metric1Breakdown1Label}</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{metric1Breakdown2Label}</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{metric1Breakdown3Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{METRIC1_BREAKDOWN1_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{METRIC1_BREAKDOWN2_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{METRIC1_BREAKDOWN3_LABEL}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -610,10 +610,10 @@ export default async function Home() {
                                 metric: metric3,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: metric1Breakdown1Field },
+                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
                                 ],
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                               }}
                             />
@@ -629,7 +629,7 @@ export default async function Home() {
                                   { columnName: "tortilla_name" },
                                 ],
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                               }}
                             />
@@ -645,7 +645,7 @@ export default async function Home() {
                                   { columnName: "sauce_name" },
                                 ],
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                               }}
                             />
@@ -662,7 +662,7 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{metric1Breakdown4Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{METRIC1_BREAKDOWN4_LABEL}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -676,7 +676,7 @@ export default async function Home() {
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
                                 sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
+                                refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
