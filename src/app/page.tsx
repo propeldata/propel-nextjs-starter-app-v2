@@ -36,7 +36,7 @@ const chart1Label = "Orders over time"
 const chart2Label = "Revenue over time"
 const chart3Label = "Average order over time"
 
-const refetchInterval = 1000; // 1 second refresh interval
+const refetchInterval = 10000; // 1 second refresh interval
 
 //Set the config for the OAuth2 client
 const config: ModuleOptions<"client_id"> = {
@@ -49,6 +49,30 @@ const config: ModuleOptions<"client_id"> = {
     tokenPath: process.env.TOKEN_PATH ?? "",
   },
 };
+
+// Metrics
+
+let metric1 = {
+  count: {
+    dataPool: { name: dataPoolName },
+  },
+}
+
+let metric2 = {
+  sum: {
+    dataPool: { name: dataPoolName },
+    measure: {
+      columnName: measure,
+    },
+  },
+}
+
+let metric3 = {
+  custom: {
+    dataPool: { name: dataPoolName },
+    expression: `SUM(${measure}) / COUNT()`,
+  },
+}
 
 //Create the OAuth2 client
 const oauth2Client = new ClientCredentials(config);
@@ -138,11 +162,7 @@ export default async function Home() {
                     localize
                     prefixValue=""
                     query={{
-                      metric: {
-                        count: {
-                          dataPool: { name: dataPoolName },
-                        },
-                      },
+                      metric: metric1,
                       refetchInterval: refetchInterval,
                     }}
                   />
@@ -161,14 +181,7 @@ export default async function Home() {
                     localize
                     prefixValue="$"
                     query={{
-                      metric: {
-                        sum: {
-                          dataPool: { name: dataPoolName },
-                          measure: {
-                            columnName: measure,
-                          },
-                        },
-                      },
+                      metric: metric2,
                       refetchInterval: refetchInterval
                     }}
                   />
@@ -187,12 +200,7 @@ export default async function Home() {
                     localize
                     prefixValue="$"
                     query={{
-                      metric: {
-                        custom: {
-                          dataPool: { name: dataPoolName },
-                          expression: `SUM(${measure}) / COUNT()`,
-                        },
-                      },
+                      metric: metric3,
                       refetchInterval: refetchInterval,
                     }}
                   />
@@ -211,11 +219,7 @@ export default async function Home() {
                       localize
                       prefixValue=""
                       query={{
-                        metric: {
-                          count: {
-                            dataPool: { name: dataPoolName },
-                          },
-                        },
+                        metric: metric1,
                         refetchInterval: refetchInterval,
                       }}
                     />
@@ -229,14 +233,7 @@ export default async function Home() {
                       localize
                       prefixValue="$"
                       query={{
-                        metric: {
-                          sum: {
-                            dataPool: { name: dataPoolName },
-                            measure: {
-                              columnName: measure,
-                            },
-                          },
-                        },
+                        metric: metric2,
                         refetchInterval: refetchInterval
                       }}
                     />
@@ -250,12 +247,7 @@ export default async function Home() {
                       localize
                       prefixValue="$"
                       query={{
-                        metric: {
-                          custom: {
-                            dataPool: { name: dataPoolName },
-                            expression: `SUM(${measure}) / COUNT()`,
-                          },
-                        },
+                        metric: metric3,
                         refetchInterval: refetchInterval,
                       }}
                     />
@@ -272,11 +264,7 @@ export default async function Home() {
                       <TimeSeries
                         variant="bar"
                         query={{
-                          metric: {
-                            count: {
-                              dataPool: { name: dataPoolName },
-                            },
-                          },
+                          metric: metric1,
                           refetchInterval: refetchInterval,
                           groupBy: ["taco_name"],
                         }}
@@ -306,11 +294,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  count: {
-                                    dataPool: { name: dataPoolName },
-                                  },
-                                },
+                                metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "taco_name" },
@@ -326,11 +310,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  count: {
-                                    dataPool: { name: dataPoolName },
-                                  },
-                                },
+                                metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "tortilla_name" },
@@ -346,11 +326,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  count: {
-                                    dataPool: { name: dataPoolName },
-                                  },
-                                },
+                                metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "sauce_name" },
@@ -384,11 +360,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  count: {
-                                    dataPool: { name: dataPoolName },
-                                  },
-                                },
+                                metric: metric1,
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
                                 sort: Sort.Desc,
@@ -404,11 +376,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  count: {
-                                    dataPool: { name: dataPoolName },
-                                  },
-                                },
+                                metric: metric1,
                                 rowLimit: 100,
                                 dimension: { columnName: "quantity" },
                                 sort: Sort.Desc,
@@ -437,14 +405,7 @@ export default async function Home() {
                           fillArea: true,
                         }}
                         query={{
-                          metric: {
-                            sum: {
-                              dataPool: { name: dataPoolName },
-                              measure: {
-                                columnName: measure,
-                              },
-                            },
-                          },
+                          metric: metric2,
                           refetchInterval: refetchInterval
                         }}
                       // chartConfigProps={async (config) => {
@@ -492,14 +453,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  sum: {
-                                    dataPool: { name: dataPoolName },
-                                    measure: {
-                                      columnName: measure,
-                                    },
-                                  },
-                                },
+                                metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "taco_name" },
@@ -515,14 +469,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  sum: {
-                                    dataPool: { name: dataPoolName },
-                                    measure: {
-                                      columnName: measure,
-                                    },
-                                  },
-                                },
+                                metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "tortilla_name" },
@@ -538,14 +485,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  sum: {
-                                    dataPool: { name: dataPoolName },
-                                    measure: {
-                                      columnName: measure,
-                                    },
-                                  },
-                                },
+                                metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "sauce_name" },
@@ -579,14 +519,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  sum: {
-                                    dataPool: { name: dataPoolName },
-                                    measure: {
-                                      columnName: measure,
-                                    },
-                                  },
-                                },
+                                metric: metric2,
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
                                 sort: Sort.Desc,
@@ -602,14 +535,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  sum: {
-                                    dataPool: { name: dataPoolName },
-                                    measure: {
-                                      columnName: measure,
-                                    },
-                                  },
-                                },
+                                metric: metric2,
                                 rowLimit: 100,
                                 dimension: { columnName: "taco_total_price" },
                                 sort: Sort.Desc,
@@ -634,12 +560,7 @@ export default async function Home() {
                       <TimeSeries
                         variant="bar"
                         query={{
-                          metric: {
-                            custom: {
-                              dataPool: { name: dataPoolName },
-                              expression: `SUM(${measure}) / COUNT()`,
-                            },
-                          },
+                          metric: metric3,
                           refetchInterval: refetchInterval,
                           groupBy: ["taco_name"],
                         }}
@@ -670,12 +591,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  custom: {
-                                    dataPool: { name: dataPoolName },
-                                    expression: `SUM(${measure}) / COUNT()`,
-                                  },
-                                },
+                                metric: metric3,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "taco_name" },
@@ -691,12 +607,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  custom: {
-                                    dataPool: { name: dataPoolName },
-                                    expression: `SUM(${measure}) / COUNT()`,
-                                  },
-                                },
+                                metric: metric3,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "tortilla_name" },
@@ -712,12 +623,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: {
-                                  custom: {
-                                    dataPool: { name: dataPoolName },
-                                    expression: `SUM(${measure}) / COUNT()`,
-                                  },
-                                },
+                                metric: metric3,
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "sauce_name" },
@@ -751,12 +657,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  custom: {
-                                    dataPool: { name: dataPoolName },
-                                    expression: `SUM(${measure}) / COUNT()`,
-                                  },
-                                },
+                                metric: metric3,
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
                                 sort: Sort.Desc,
@@ -772,12 +673,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: {
-                                  custom: {
-                                    dataPool: { name: dataPoolName },
-                                    expression: `SUM(${measure}) / COUNT()`,
-                                  },
-                                },
+                                metric: metric3,
                                 rowLimit: 100,
                                 dimension: { columnName: "quantity" },
                                 sort: Sort.Desc,
@@ -786,7 +682,6 @@ export default async function Home() {
                             />
                           </Tabs.Content>
                         </Tabs.Root>
-
                       </Card>
                     </Flex>
                   </Grid>
