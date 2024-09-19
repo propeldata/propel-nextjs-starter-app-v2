@@ -23,35 +23,33 @@ import {
 } from "@propeldata/ui-kit";
 import { gray } from "@propeldata/ui-kit/colors"
 
+// Constants
 const dataPoolName = "TacoSoft Demo Data"
 const filter1 = "restaurant_name"
 const filter2 = "taco_name"
 const filter1Label = "Restaurant..."
 const filter2Label = "Taco..."
 const measure = "taco_total_price"
-const counter1Label = "Orders"
-const counter2Label = "Revenue"
-const counter3Label = "Average order"
+const metric1Label = "Orders"
+const metric2Label = "Revenue"
+const metric3Label = "Average order"
 const chart1Label = "Orders over time"
 const chart2Label = "Revenue over time"
 const chart3Label = "Average order over time"
-
-const refetchInterval = 10000; // 1 second refresh interval
-
-//Set the config for the OAuth2 client
-const config: ModuleOptions<"client_id"> = {
-  client: {
-    id: process.env.CLIENT_ID ?? "",
-    secret: process.env.CLIENT_SECRET ?? "",
-  },
-  auth: {
-    tokenHost: process.env.TOKEN_HOST ?? "",
-    tokenPath: process.env.TOKEN_PATH ?? "",
-  },
-};
+const metric1Breakdown1Field = "taco_name"
+const metric1Breakdown1Label = "Taco"
+const metric1Breakdown2Field = "tortilla_name"
+const metric1Breakdown2Label = "Tortilla"
+const metric1Breakdown3Field = "sauce_name"
+const metric1Breakdown3Label = "Sauce"
+const metric1Breakdown4Field = "restaurant_name"
+const metric1Breakdown4Label = "Restaurant"
+const metric1Breakdown5Field = "quantity"
+const metric1Breakdown5Label = "Items ordered"
+const metric1Breakdown6Field = "taco_total_price"
+const metric1Breakdown6Label = "Order dollar size"
 
 // Metrics
-
 let metric1 = {
   count: {
     dataPool: { name: dataPoolName },
@@ -73,6 +71,24 @@ let metric3 = {
     expression: `SUM(${measure}) / COUNT()`,
   },
 }
+
+const refetchInterval = 10000; // 1 second refresh interval
+
+//Set the config for the OAuth2 client
+const config: ModuleOptions<"client_id"> = {
+  client: {
+    id: process.env.CLIENT_ID ?? "",
+    secret: process.env.CLIENT_SECRET ?? "",
+  },
+  auth: {
+    tokenHost: process.env.TOKEN_HOST ?? "",
+    tokenPath: process.env.TOKEN_PATH ?? "",
+  },
+};
+
+// Metrics
+
+
 
 //Create the OAuth2 client
 const oauth2Client = new ClientCredentials(config);
@@ -156,7 +172,7 @@ export default async function Home() {
                 width="100%"
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{counter1Label}</Text>
+                  <Text style={{ margin: 0 }}>{metric1Label}</Text>
                   <br />
                   <Counter
                     localize
@@ -175,7 +191,7 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{counter2Label}</Text>
+                  <Text style={{ margin: 0 }}>{metric2Label}</Text>
                   <br />
                   <Counter
                     localize
@@ -194,7 +210,7 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{counter3Label}</Text>
+                  <Text style={{ margin: 0 }}>{metric3Label}</Text>
                   <br />
                   <Counter
                     localize
@@ -213,7 +229,7 @@ export default async function Home() {
               <Tabs.List>
                 <Tabs.Trigger value="orders">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{counter1Label}</Text>
+                    <Text style={{ margin: 0 }}>{metric1Label}</Text>
                     <br />
                     <Counter
                       localize
@@ -227,7 +243,7 @@ export default async function Home() {
                 </Tabs.Trigger>
                 <Tabs.Trigger value="revenue">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{counter2Label}</Text>
+                    <Text style={{ margin: 0 }}>{metric2Label}</Text>
                     <br />
                     <Counter
                       localize
@@ -241,7 +257,7 @@ export default async function Home() {
                 </Tabs.Trigger>
                 <Tabs.Trigger value="average_order">
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{counter3Label}</Text>
+                    <Text style={{ margin: 0 }}>{metric3Label}</Text>
                     <br />
                     <Counter
                       localize
@@ -266,7 +282,7 @@ export default async function Home() {
                         query={{
                           metric: metric1,
                           refetchInterval: refetchInterval,
-                          groupBy: ["taco_name"],
+                          groupBy: [metric1Breakdown1Field],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={8}
@@ -285,9 +301,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">Taco</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">Tortilla</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">Salsa</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{ metric1Breakdown1Label }</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{ metric1Breakdown2Label }</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{ metric1Breakdown3Label }</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -297,7 +313,7 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "taco_name" },
+                                  { columnName: metric1Breakdown1Field },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
@@ -313,7 +329,7 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "tortilla_name" },
+                                  { columnName: metric1Breakdown2Field },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
@@ -329,7 +345,7 @@ export default async function Home() {
                                 metric: metric1,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "sauce_name" },
+                                  { columnName: metric1Breakdown3Field },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
@@ -349,8 +365,8 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">Restaurant</Tabs.Trigger>
-                            <Tabs.Trigger value="quantity">Items ordered</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{ metric1Breakdown4Label }</Tabs.Trigger>
+                            <Tabs.Trigger value="quantity">{ metric1Breakdown5Label }</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -362,7 +378,7 @@ export default async function Home() {
                               query={{
                                 metric: metric1,
                                 rowLimit: 100,
-                                dimension: { columnName: "restaurant_name" },
+                                dimension: { columnName: metric1Breakdown4Field },
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
                               }}
@@ -378,7 +394,7 @@ export default async function Home() {
                               query={{
                                 metric: metric1,
                                 rowLimit: 100,
-                                dimension: { columnName: "quantity" },
+                                dimension: { columnName: metric1Breakdown5Field },
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
                               }}
@@ -444,9 +460,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">Taco</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">Tortilla</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">Salsa</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{metric1Breakdown1Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{metric1Breakdown2Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{metric1Breakdown3Label}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -456,7 +472,7 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "taco_name" },
+                                  { columnName: metric1Breakdown1Field },
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
@@ -472,7 +488,7 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "tortilla_name" },
+                                  { columnName: metric1Breakdown2Field },
                                 ],
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
@@ -488,7 +504,7 @@ export default async function Home() {
                                 metric: metric2,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "sauce_name" },
+                                  { columnName: metric1Breakdown3Field },
                                 ],
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
@@ -508,8 +524,8 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">Restaurant</Tabs.Trigger>
-                            <Tabs.Trigger value="order_size">Order dollar size</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{metric1Breakdown4Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="order_size">{metric1Breakdown6Label}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -521,7 +537,7 @@ export default async function Home() {
                               query={{
                                 metric: metric2,
                                 rowLimit: 100,
-                                dimension: { columnName: "restaurant_name" },
+                                dimension: { columnName: metric1Breakdown4Field },
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
                               }}
@@ -537,7 +553,7 @@ export default async function Home() {
                               query={{
                                 metric: metric2,
                                 rowLimit: 100,
-                                dimension: { columnName: "taco_total_price" },
+                                dimension: { columnName: metric1Breakdown6Field },
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
                               }}
@@ -562,7 +578,7 @@ export default async function Home() {
                         query={{
                           metric: metric3,
                           refetchInterval: refetchInterval,
-                          groupBy: ["taco_name"],
+                          groupBy: [metric1Breakdown1Field],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={100}
@@ -582,9 +598,9 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="taco" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">Taco</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">Tortilla</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">Salsa</Tabs.Trigger>
+                            <Tabs.Trigger value="taco">{metric1Breakdown1Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">{metric1Breakdown2Label}</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">{metric1Breakdown3Label}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="taco">
                             <Leaderboard
@@ -594,7 +610,7 @@ export default async function Home() {
                                 metric: metric3,
                                 rowLimit: 100,
                                 dimensions: [
-                                  { columnName: "taco_name" },
+                                  { columnName: metric1Breakdown1Field },
                                 ],
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
@@ -646,8 +662,7 @@ export default async function Home() {
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue="restaurant" orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">Restaurant</Tabs.Trigger>
-                            <Tabs.Trigger value="quantity">Items ordered</Tabs.Trigger>
+                            <Tabs.Trigger value="restaurant">{metric1Breakdown4Label}</Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value="restaurant">
                             <PieChart
@@ -660,22 +675,6 @@ export default async function Home() {
                                 metric: metric3,
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
-                                sort: Sort.Desc,
-                                refetchInterval: refetchInterval,
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="quantity">
-                            <PieChart
-                              variant="pie"
-                              chartProps={{
-                                hideTotal: true,
-                                legendPosition: "right"
-                              }}
-                              query={{
-                                metric: metric3,
-                                rowLimit: 100,
-                                dimension: { columnName: "quantity" },
                                 sort: Sort.Desc,
                                 refetchInterval: refetchInterval,
                               }}
