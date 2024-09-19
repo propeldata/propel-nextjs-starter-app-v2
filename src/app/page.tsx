@@ -25,10 +25,6 @@ import { gray } from "@propeldata/ui-kit/colors"
 
 // Constants
 const DATA_POOL_NAME = "TacoSoft Demo Data"
-const FILTER1 = "restaurant_name"
-const FILTER2 = "taco_name"
-const FILTER1_LABEL = "Restaurant..."
-const FILTER2_LABEL = "Taco..."
 const MEASURE = "taco_total_price"
 const METRIC1_LABEL = "Orders"
 const METRIC2_LABEL = "Revenue"
@@ -48,6 +44,12 @@ const METRIC1_BREAKDOWN5_FIELD = "quantity"
 const METRIC1_BREAKDOWN5_LABEL = "Items ordered"
 const METRIC1_BREAKDOWN6_FIELD = "taco_total_price"
 const METRIC1_BREAKDOWN6_LABEL = "Order dollar size"
+
+// Filters
+const FILTERS = [
+  { field: "restaurant_name", label: "Restaurant..." },
+  { field: "taco_name", label: "Taco..." }
+]
 
 // Metrics
 let metric1 = {
@@ -127,22 +129,17 @@ export default async function Home() {
                     width: "100%"
                   }}
                 >
-                  <SimpleFilter
-                    query={{
-                      columnName: FILTER1,
-                      dataPool: { name: DATA_POOL_NAME },
-                      maxValues: 1000,
-                    }}
-                    autocompleteProps={{ placeholder: FILTER1_LABEL }}
-                  />
-                  <SimpleFilter
-                    query={{
-                      columnName: FILTER2,
-                      dataPool: { name: DATA_POOL_NAME },
-                      maxValues: 1000,
-                    }}
-                    autocompleteProps={{ placeholder: FILTER2_LABEL }}
-                  />
+                  {FILTERS.map((filter, index) => (
+                    <SimpleFilter
+                      key={index}
+                      query={{
+                        columnName: filter.field,
+                        dataPool: { name: DATA_POOL_NAME },
+                        maxValues: 1000,
+                      }}
+                      autocompleteProps={{ placeholder: filter.label }}
+                    />
+                  ))}
                 </Flex>
                 <Flex
                   style={{
