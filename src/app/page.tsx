@@ -317,6 +317,7 @@ export default async function Home() {
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                refetchInterval: refetchInterval,
                               }}
                             />
                           </Tabs.Content>
@@ -336,6 +337,7 @@ export default async function Home() {
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                refetchInterval: refetchInterval,
                               }}
                             />
                           </Tabs.Content>
@@ -355,6 +357,7 @@ export default async function Home() {
                                 ],
                                 sort: Sort.Desc,
                                 timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                refetchInterval: refetchInterval,
                               }}
                             />
                           </Tabs.Content>
@@ -388,7 +391,8 @@ export default async function Home() {
                                 },
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
-                                sort: Sort.Desc
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
                               }}
                             />
                           </Tabs.Content>
@@ -407,7 +411,8 @@ export default async function Home() {
                                 },
                                 rowLimit: 100,
                                 dimension: { columnName: "quantity" },
-                                sort: Sort.Desc
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
                               }}
                             />
                           </Tabs.Content>
@@ -419,78 +424,372 @@ export default async function Home() {
                 </Flex>
               </Tabs.Content>
               <Tabs.Content value="revenue">
-                <Flex direction="column" style={{ width: "100%", paddingTop: "16px" }}>
-                  <Card>
-                    <Text size="3" weight="bold" style={{ margin: 0 }}>
-                      {chart2Label}
-                    </Text>
-                    <TimeSeries
-                      variant="bar"
-                      accentColors={["grass"]}
-                      chartProps={{
-                        fillArea: true,
-                      }}
-                      query={{
-                        metric: {
-                          sum: {
-                            dataPool: { name: dataPoolName },
-                            measure: {
-                              columnName: measure,
+                <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
+                  <Flex direction="column" style={{ width: "100%" }}>
+                    <Card>
+                      <Text size="3" weight="bold" style={{ margin: 0 }}>
+                        {chart2Label}
+                      </Text>
+                      <TimeSeries
+                        variant="bar"
+                        accentColors={["grass"]}
+                        chartProps={{
+                          fillArea: true,
+                        }}
+                        query={{
+                          metric: {
+                            sum: {
+                              dataPool: { name: dataPoolName },
+                              measure: {
+                                columnName: measure,
+                              },
                             },
                           },
-                        },
-                        refetchInterval: refetchInterval
-                      }}
-                    // chartConfigProps={async (config) => {
-                    //   "use server"
-                    //   return {
-                    //     ...config,
-                    //     options: {
-                    //       ...config.options,
-                    //       scales: {
-                    //         ...config.options?.scales,
-                    //         y: {
-                    //           ...config.options?.scales?.y,
-                    //           ticks: {
-                    //             ...config.options?.scales?.y?.ticks,
-                    //             // Prefix the Y-axis labels with $
-                    //             callback: function (value) {
-                    //               return '$' + value;
-                    //             }
-                    //           }
-                    //         }
-                    //       }
-                    //     }}
-                    //   }
-                    // }
-                    />
-                  </Card>
+                          refetchInterval: refetchInterval
+                        }}
+                      // chartConfigProps={async (config) => {
+                      //   "use server"
+                      //   return {
+                      //     ...config,
+                      //     options: {
+                      //       ...config.options,
+                      //       scales: {
+                      //         ...config.options?.scales,
+                      //         y: {
+                      //           ...config.options?.scales?.y,
+                      //           ticks: {
+                      //             ...config.options?.scales?.y?.ticks,
+                      //             // Prefix the Y-axis labels with $
+                      //             callback: function (value) {
+                      //               return '$' + value;
+                      //             }
+                      //           }
+                      //         }
+                      //       }
+                      //     }}
+                      //   }
+                      // }
+                      />
+                    </Card>
+                  </Flex>
+                  <Grid columns={{ initial: "1", md: "2" }} gap="4" align="center">
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      width="100%"
+                    >
+
+                      <Card style={{ width: "100%" }}>
+                        <Tabs.Root defaultValue="taco" orientation="vertical">
+                          <Tabs.List aria-label="tabs example">
+                            <Tabs.Trigger value="taco">Taco</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">Tortilla</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">Salsa</Tabs.Trigger>
+                          </Tabs.List>
+                          <Tabs.Content value="taco">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  sum: {
+                                    dataPool: { name: dataPoolName },
+                                    measure: {
+                                      columnName: measure,
+                                    },
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "taco_name" },
+                                ],
+                                sort: Sort.Desc,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                refetchInterval: refetchInterval,
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="tortilla">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  sum: {
+                                    dataPool: { name: dataPoolName },
+                                    measure: {
+                                      columnName: measure,
+                                    },
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "tortilla_name" },
+                                ],
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="salsa">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  sum: {
+                                    dataPool: { name: dataPoolName },
+                                    measure: {
+                                      columnName: measure,
+                                    },
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "sauce_name" },
+                                ],
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                              }}
+                            />
+                          </Tabs.Content>
+                        </Tabs.Root>
+                      </Card>
+                    </Flex>
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      style={{ width: "100%" }}
+                    >
+                      <Card style={{ width: "100%" }}>
+                        <Tabs.Root defaultValue="restaurant" orientation="vertical">
+                          <Tabs.List aria-label="tabs example">
+                            <Tabs.Trigger value="restaurant">Restaurant</Tabs.Trigger>
+                            <Tabs.Trigger value="order_size">Order dollar size</Tabs.Trigger>
+                          </Tabs.List>
+                          <Tabs.Content value="restaurant">
+                            <PieChart
+                              variant="pie"
+                              chartProps={{
+                                hideTotal: true,
+                                legendPosition: "right"
+                              }}
+                              query={{
+                                metric: {
+                                  sum: {
+                                    dataPool: { name: dataPoolName },
+                                    measure: {
+                                      columnName: measure,
+                                    },
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimension: { columnName: "restaurant_name" },
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="order_size">
+                            <PieChart
+                              variant="pie"
+                              chartProps={{
+                                hideTotal: true,
+                                legendPosition: "right"
+                              }}
+                              query={{
+                                metric: {
+                                  sum: {
+                                    dataPool: { name: dataPoolName },
+                                    measure: {
+                                      columnName: measure,
+                                    },
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimension: { columnName: "taco_total_price" },
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                              }}
+                            />
+                          </Tabs.Content>
+                        </Tabs.Root>
+
+                      </Card>
+                    </Flex>
+                  </Grid>
                 </Flex>
               </Tabs.Content>
               <Tabs.Content value="average_order">
-                <Flex direction="column" style={{ width: "100%", paddingTop: "16px" }}>
-                  <Card>
-                    <Text size="3" weight="bold" style={{ margin: 0 }}>
-                      {chart3Label}
-                    </Text>
-                    <TimeSeries
-                      variant="bar"
-                      query={{
-                        metric: {
-                          custom: {
-                            dataPool: { name: dataPoolName },
-                            expression: `SUM(${measure}) / COUNT()`,
+                <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
+                  <Flex direction="column" style={{ width: "100%" }}>
+                    <Card>
+                      <Text size="3" weight="bold" style={{ margin: 0 }}>
+                        {chart3Label}
+                      </Text>
+                      <TimeSeries
+                        variant="bar"
+                        query={{
+                          metric: {
+                            custom: {
+                              dataPool: { name: dataPoolName },
+                              expression: `SUM(${measure}) / COUNT()`,
+                            },
                           },
-                        },
-                        refetchInterval: refetchInterval,
-                        groupBy: ["taco_name"],
-                      }}
-                      otherColor="gray.gray5"
-                      maxGroupBy={100}
-                      stacked={false}
-                      showGroupByOther={false}
-                    />
-                  </Card>
+                          refetchInterval: refetchInterval,
+                          groupBy: ["taco_name"],
+                        }}
+                        otherColor="gray.gray5"
+                        maxGroupBy={100}
+                        stacked={false}
+                        showGroupByOther={false}
+                      />
+                    </Card>
+                  </Flex>
+                  <Grid columns={{ initial: "1", md: "2" }} gap="4" align="center">
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      width="100%"
+                    >
+
+                      <Card style={{ width: "100%" }}>
+                        <Tabs.Root defaultValue="taco" orientation="vertical">
+                          <Tabs.List aria-label="tabs example">
+                            <Tabs.Trigger value="taco">Taco</Tabs.Trigger>
+                            <Tabs.Trigger value="tortilla">Tortilla</Tabs.Trigger>
+                            <Tabs.Trigger value="salsa">Salsa</Tabs.Trigger>
+                          </Tabs.List>
+                          <Tabs.Content value="taco">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  custom: {
+                                    dataPool: { name: dataPoolName },
+                                    expression: `SUM(${measure}) / COUNT()`,
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "taco_name" },
+                                ],
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="tortilla">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  custom: {
+                                    dataPool: { name: dataPoolName },
+                                    expression: `SUM(${measure}) / COUNT()`,
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "tortilla_name" },
+                                ],
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="salsa">
+                            <Leaderboard
+                              variant="table"
+                              headers={["", "Count"]}
+                              query={{
+                                metric: {
+                                  custom: {
+                                    dataPool: { name: dataPoolName },
+                                    expression: `SUM(${measure}) / COUNT()`,
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimensions: [
+                                  { columnName: "sauce_name" },
+                                ],
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                              }}
+                            />
+                          </Tabs.Content>
+                        </Tabs.Root>
+                      </Card>
+                    </Flex>
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      style={{ width: "100%" }}
+                    >
+                      <Card style={{ width: "100%" }}>
+                        <Tabs.Root defaultValue="restaurant" orientation="vertical">
+                          <Tabs.List aria-label="tabs example">
+                            <Tabs.Trigger value="restaurant">Restaurant</Tabs.Trigger>
+                            <Tabs.Trigger value="quantity">Items ordered</Tabs.Trigger>
+                          </Tabs.List>
+                          <Tabs.Content value="restaurant">
+                            <PieChart
+                              variant="pie"
+                              chartProps={{
+                                hideTotal: true,
+                                legendPosition: "right"
+                              }}
+                              query={{
+                                metric: {
+                                  custom: {
+                                    dataPool: { name: dataPoolName },
+                                    expression: `SUM(${measure}) / COUNT()`,
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimension: { columnName: "restaurant_name" },
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                              }}
+                            />
+                          </Tabs.Content>
+                          <Tabs.Content value="quantity">
+                            <PieChart
+                              variant="pie"
+                              chartProps={{
+                                hideTotal: true,
+                                legendPosition: "right"
+                              }}
+                              query={{
+                                metric: {
+                                  custom: {
+                                    dataPool: { name: dataPoolName },
+                                    expression: `SUM(${measure}) / COUNT()`,
+                                  },
+                                },
+                                rowLimit: 100,
+                                dimension: { columnName: "quantity" },
+                                sort: Sort.Desc,
+                                refetchInterval: refetchInterval,
+                              }}
+                            />
+                          </Tabs.Content>
+                        </Tabs.Root>
+
+                      </Card>
+                    </Flex>
+                  </Grid>
                 </Flex>
               </Tabs.Content>
             </Tabs.Root>
