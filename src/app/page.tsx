@@ -33,24 +33,31 @@ const FILTERS = [
 ]
 
 const MEASURE = "taco_total_price"
-const METRIC1_LABEL = "Orders"
-const METRIC2_LABEL = "Revenue"
-const METRIC3_LABEL = "Average order"
-const CHART1_LABEL = "Orders over time"
-const CHART2_LABEL = "Revenue over time"
-const CHART3_LABEL = "Average order over time"
-const METRIC1_BREAKDOWN1_FIELD = "taco_name"
-const METRIC1_BREAKDOWN1_LABEL = "Taco"
-const METRIC1_BREAKDOWN2_FIELD = "tortilla_name"
-const METRIC1_BREAKDOWN2_LABEL = "Tortilla"
-const METRIC1_BREAKDOWN3_FIELD = "sauce_name"
-const METRIC1_BREAKDOWN3_LABEL = "Sauce"
-const METRIC1_BREAKDOWN4_FIELD = "restaurant_name"
-const METRIC1_BREAKDOWN4_LABEL = "Restaurant"
-const METRIC1_BREAKDOWN5_FIELD = "quantity"
-const METRIC1_BREAKDOWN5_LABEL = "Items ordered"
-const METRIC1_BREAKDOWN6_FIELD = "taco_total_price"
-const METRIC1_BREAKDOWN6_LABEL = "Order dollar size"
+const METRIC_LABELS = [
+  "Orders",
+  "Revenue",
+  "Average order"
+]
+const CHART_LABELS = [
+  "Orders over time",
+  "Revenue over time",
+  "Average order over time"
+]
+
+const BREAKDOWNS = [
+  { field: "taco_name", label: "Taco" },
+  { field: "tortilla_name", label: "Tortilla" },
+  { field: "sauce_name", label: "Sauce" },
+  { field: "restaurant_name", label: "Restaurant" },
+  { field: "quantity", label: "Items ordered" },
+  { field: "taco_total_price", label: "Order dollar size" }
+]
+
+const METRIC_BREAKDOWNS = [
+  [0, 1, 2, 3, 4],  // Metric 1 breakdowns
+  [0, 1, 2, 3, 5],  // Metric 2 breakdowns
+  [0, 1, 2, 3]      // Metric 3 breakdowns
+]
 
 // Metrics
 const metrics = [
@@ -167,7 +174,7 @@ export default async function Home() {
                 width="100%"
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC1_LABEL}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
                   <br />
                   <Counter
                     localize
@@ -186,7 +193,7 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC2_LABEL}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC_LABELS[1]}</Text>
                   <br />
                   <Counter
                     localize
@@ -205,7 +212,7 @@ export default async function Home() {
                 style={{ width: "100%" }}
               >
                 <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC3_LABEL}</Text>
+                  <Text style={{ margin: 0 }}>{METRIC_LABELS[2]}</Text>
                   <br />
                   <Counter
                     localize
@@ -219,12 +226,12 @@ export default async function Home() {
               </Flex>
             </Grid>
             <Tabs.Root
-              defaultValue="orders"
+              defaultValue={METRIC_LABELS[0]}
             >
               <Tabs.List>
-                <Tabs.Trigger value="orders">
+                <Tabs.Trigger value={METRIC_LABELS[0]}>
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC1_LABEL}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
                     <br />
                     <Counter
                       localize
@@ -236,9 +243,9 @@ export default async function Home() {
                     />
                   </Card>
                 </Tabs.Trigger>
-                <Tabs.Trigger value="revenue">
+                <Tabs.Trigger value={METRIC_LABELS[1]}>
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC2_LABEL}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC_LABELS[1]}</Text>
                     <br />
                     <Counter
                       localize
@@ -250,9 +257,9 @@ export default async function Home() {
                     />
                   </Card>
                 </Tabs.Trigger>
-                <Tabs.Trigger value="average_order">
+                <Tabs.Trigger value={METRIC_LABELS[2]}>
                   <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC3_LABEL}</Text>
+                    <Text style={{ margin: 0 }}>{METRIC_LABELS[2]}</Text>
                     <br />
                     <Counter
                       localize
@@ -265,19 +272,19 @@ export default async function Home() {
                   </Card>
                 </Tabs.Trigger>
               </Tabs.List>
-              <Tabs.Content value="orders">
+              <Tabs.Content value={METRIC_LABELS[0]}>
                 <Flex direction="column" gap="4" style={{ width: "100%", paddingTop:"16px" }}>
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {CHART1_LABEL}
+                        {CHART_LABELS[0]}
                       </Text>
                       <TimeSeries
                         variant="bar"
                         query={{
                           metric: metrics[0],
                           refetchInterval: REFETCH_INTERVAL,
-                          groupBy: [METRIC1_BREAKDOWN1_FIELD],
+                          groupBy: [BREAKDOWNS[0].field],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={8}
@@ -294,60 +301,30 @@ export default async function Home() {
                     >
 
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="taco">
+                        <Tabs.Root defaultValue={BREAKDOWNS[0].label}>
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{ METRIC1_BREAKDOWN1_LABEL }</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{ METRIC1_BREAKDOWN2_LABEL }</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{ METRIC1_BREAKDOWN3_LABEL }</Tabs.Trigger>
+                            {METRIC_BREAKDOWNS[0].slice(0, 3).map((index) => (
+                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                            ))}
                           </Tabs.List>
-                          <Tabs.Content value="taco">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[0],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="tortilla">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[0],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN2_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="salsa">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[0],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN3_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
+                          {METRIC_BREAKDOWNS[0].slice(0, 3).map((index) => (
+                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                              <Leaderboard
+                                variant="table"
+                                headers={["", "Count"]}
+                                query={{
+                                  metric: metrics[0],
+                                  rowLimit: 100,
+                                  dimensions: [
+                                    { columnName: BREAKDOWNS[index].field },
+                                  ],
+                                  sort: Sort.Desc,
+                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                  refetchInterval: REFETCH_INTERVAL,
+                                }}
+                              />
+                            </Tabs.Content>
+                          ))}
                         </Tabs.Root>
                       </Card>
                     </Flex>
@@ -358,43 +335,30 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="restaurant" orientation="vertical">
+                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{ METRIC1_BREAKDOWN4_LABEL }</Tabs.Trigger>
-                            <Tabs.Trigger value="quantity">{ METRIC1_BREAKDOWN5_LABEL }</Tabs.Trigger>
+                            {METRIC_BREAKDOWNS[0].slice(3, 5).map((index) => (
+                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                            ))}
                           </Tabs.List>
-                          <Tabs.Content value="restaurant">
-                            <PieChart
-                              variant="pie"
-                              chartProps={{
-                                hideTotal: true,
-                                legendPosition: "right"
-                              }}
-                              query={{
-                                metric: metrics[0],
-                                rowLimit: 100,
-                                dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="quantity">
-                            <PieChart
-                              variant="pie"
-                              chartProps={{
-                                hideTotal: true,
-                                legendPosition: "right"
-                              }}
-                              query={{
-                                metric: metrics[0],
-                                rowLimit: 100,
-                                dimension: { columnName: METRIC1_BREAKDOWN5_FIELD },
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
+                          {METRIC_BREAKDOWNS[0].slice(3, 5).map((index) => (
+                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                              <PieChart
+                                variant="pie"
+                                chartProps={{
+                                  hideTotal: true,
+                                  legendPosition: "right"
+                                }}
+                                query={{
+                                  metric: metrics[0],
+                                  rowLimit: 100,
+                                  dimension: { columnName: BREAKDOWNS[index].field },
+                                  sort: Sort.Desc,
+                                  refetchInterval: REFETCH_INTERVAL,
+                                }}
+                              />
+                            </Tabs.Content>
+                          ))}
                         </Tabs.Root>
 
                       </Card>
@@ -402,12 +366,12 @@ export default async function Home() {
                   </Grid>
                 </Flex>
               </Tabs.Content>
-              <Tabs.Content value="revenue">
+              <Tabs.Content value={METRIC_LABELS[1]}>
                 <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {CHART2_LABEL}
+                        {CHART_LABELS[1]}
                       </Text>
                       <TimeSeries
                         variant="bar"
@@ -419,28 +383,6 @@ export default async function Home() {
                           metric: metrics[1],
                           refetchInterval: REFETCH_INTERVAL
                         }}
-                      // chartConfigProps={async (config) => {
-                      //   "use server"
-                      //   return {
-                      //     ...config,
-                      //     options: {
-                      //       ...config.options,
-                      //       scales: {
-                      //         ...config.options?.scales,
-                      //         y: {
-                      //           ...config.options?.scales?.y,
-                      //           ticks: {
-                      //             ...config.options?.scales?.y?.ticks,
-                      //             // Prefix the Y-axis labels with $
-                      //             callback: function (value) {
-                      //               return '$' + value;
-                      //             }
-                      //           }
-                      //         }
-                      //       }
-                      //     }}
-                      //   }
-                      // }
                       />
                     </Card>
                   </Flex>
@@ -453,60 +395,30 @@ export default async function Home() {
                     >
 
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="taco" orientation="vertical">
+                        <Tabs.Root defaultValue={BREAKDOWNS[0].label} orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{METRIC1_BREAKDOWN1_LABEL}</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{METRIC1_BREAKDOWN2_LABEL}</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{METRIC1_BREAKDOWN3_LABEL}</Tabs.Trigger>
+                            {METRIC_BREAKDOWNS[1].slice(0, 3).map((index) => (
+                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                            ))}
                           </Tabs.List>
-                          <Tabs.Content value="taco">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[1],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                                refetchInterval: REFETCH_INTERVAL,
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="tortilla">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[1],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN2_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="salsa">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[1],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN3_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                              }}
-                            />
-                          </Tabs.Content>
+                          {METRIC_BREAKDOWNS[1].slice(0, 3).map((index) => (
+                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                              <Leaderboard
+                                variant="table"
+                                headers={["", "Count"]}
+                                query={{
+                                  metric: metrics[1],
+                                  rowLimit: 100,
+                                  dimensions: [
+                                    { columnName: BREAKDOWNS[index].field },
+                                  ],
+                                  sort: Sort.Desc,
+                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                  refetchInterval: REFETCH_INTERVAL,
+                                }}
+                              />
+                            </Tabs.Content>
+                          ))}
                         </Tabs.Root>
                       </Card>
                     </Flex>
@@ -517,12 +429,12 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="restaurant" orientation="vertical">
+                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{METRIC1_BREAKDOWN4_LABEL}</Tabs.Trigger>
-                            <Tabs.Trigger value="order_size">{METRIC1_BREAKDOWN6_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[3].label}>{BREAKDOWNS[3].label}</Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[5].label}>{BREAKDOWNS[5].label}</Tabs.Trigger>
                           </Tabs.List>
-                          <Tabs.Content value="restaurant">
+                          <Tabs.Content value={BREAKDOWNS[3].label}>
                             <PieChart
                               variant="pie"
                               chartProps={{
@@ -532,13 +444,13 @@ export default async function Home() {
                               query={{
                                 metric: metrics[1],
                                 rowLimit: 100,
-                                dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
+                                dimension: { columnName: BREAKDOWNS[3].field },
                                 sort: Sort.Desc,
                                 refetchInterval: REFETCH_INTERVAL,
                               }}
                             />
                           </Tabs.Content>
-                          <Tabs.Content value="order_size">
+                          <Tabs.Content value={BREAKDOWNS[5].label}>
                             <PieChart
                               variant="pie"
                               chartProps={{
@@ -548,7 +460,7 @@ export default async function Home() {
                               query={{
                                 metric: metrics[1],
                                 rowLimit: 100,
-                                dimension: { columnName: METRIC1_BREAKDOWN6_FIELD },
+                                dimension: { columnName: BREAKDOWNS[5].field },
                                 sort: Sort.Desc,
                                 refetchInterval: REFETCH_INTERVAL,
                               }}
@@ -561,19 +473,19 @@ export default async function Home() {
                   </Grid>
                 </Flex>
               </Tabs.Content>
-              <Tabs.Content value="average_order">
+              <Tabs.Content value={METRIC_LABELS[2]}>
                 <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
-                        {CHART3_LABEL}
+                        {CHART_LABELS[2]}
                       </Text>
                       <TimeSeries
                         variant="bar"
                         query={{
                           metric: metrics[2],
                           refetchInterval: REFETCH_INTERVAL,
-                          groupBy: [METRIC1_BREAKDOWN1_FIELD],
+                          groupBy: [BREAKDOWNS[0].field],
                         }}
                         otherColor="gray.gray5"
                         maxGroupBy={100}
@@ -591,60 +503,30 @@ export default async function Home() {
                     >
 
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="taco" orientation="vertical">
+                        <Tabs.Root defaultValue={BREAKDOWNS[0].label} orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="taco">{METRIC1_BREAKDOWN1_LABEL}</Tabs.Trigger>
-                            <Tabs.Trigger value="tortilla">{METRIC1_BREAKDOWN2_LABEL}</Tabs.Trigger>
-                            <Tabs.Trigger value="salsa">{METRIC1_BREAKDOWN3_LABEL}</Tabs.Trigger>
+                            {METRIC_BREAKDOWNS[2].slice(0, 3).map((index) => (
+                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                            ))}
                           </Tabs.List>
-                          <Tabs.Content value="taco">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[2],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: METRIC1_BREAKDOWN1_FIELD },
-                                ],
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="tortilla">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[2],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: "tortilla_name" },
-                                ],
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                              }}
-                            />
-                          </Tabs.Content>
-                          <Tabs.Content value="salsa">
-                            <Leaderboard
-                              variant="table"
-                              headers={["", "Count"]}
-                              query={{
-                                metric: metrics[2],
-                                rowLimit: 100,
-                                dimensions: [
-                                  { columnName: "sauce_name" },
-                                ],
-                                sort: Sort.Desc,
-                                refetchInterval: REFETCH_INTERVAL,
-                                timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
-                              }}
-                            />
-                          </Tabs.Content>
+                          {METRIC_BREAKDOWNS[2].slice(0, 3).map((index) => (
+                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                              <Leaderboard
+                                variant="table"
+                                headers={["", "Count"]}
+                                query={{
+                                  metric: metrics[2],
+                                  rowLimit: 100,
+                                  dimensions: [
+                                    { columnName: BREAKDOWNS[index].field },
+                                  ],
+                                  sort: Sort.Desc,
+                                  refetchInterval: REFETCH_INTERVAL,
+                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                }}
+                              />
+                            </Tabs.Content>
+                          ))}
                         </Tabs.Root>
                       </Card>
                     </Flex>
@@ -655,11 +537,11 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="restaurant" orientation="vertical">
+                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value="restaurant">{METRIC1_BREAKDOWN4_LABEL}</Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[3].label}>{BREAKDOWNS[3].label}</Tabs.Trigger>
                           </Tabs.List>
-                          <Tabs.Content value="restaurant">
+                          <Tabs.Content value={BREAKDOWNS[3].label}>
                             <PieChart
                               variant="pie"
                               chartProps={{
@@ -669,7 +551,7 @@ export default async function Home() {
                               query={{
                                 metric: metrics[2],
                                 rowLimit: 100,
-                                dimension: { columnName: "restaurant_name" },
+                                dimension: { columnName: BREAKDOWNS[3].field },
                                 sort: Sort.Desc,
                                 refetchInterval: REFETCH_INTERVAL,
                               }}
