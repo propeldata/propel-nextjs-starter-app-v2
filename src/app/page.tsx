@@ -25,6 +25,13 @@ import { gray } from "@propeldata/ui-kit/colors"
 
 // Constants
 const DATA_POOL_NAME = "TacoSoft Demo Data"
+
+// Filters
+const FILTERS = [
+  { field: "restaurant_name", label: "Restaurant..." },
+  { field: "taco_name", label: "Taco..." }
+]
+
 const MEASURE = "taco_total_price"
 const METRIC1_LABEL = "Orders"
 const METRIC2_LABEL = "Revenue"
@@ -45,11 +52,7 @@ const METRIC1_BREAKDOWN5_LABEL = "Items ordered"
 const METRIC1_BREAKDOWN6_FIELD = "taco_total_price"
 const METRIC1_BREAKDOWN6_LABEL = "Order dollar size"
 
-// Filters
-const FILTERS = [
-  { field: "restaurant_name", label: "Restaurant..." },
-  { field: "taco_name", label: "Taco..." }
-]
+
 
 // Metrics
 let metric1 = {
