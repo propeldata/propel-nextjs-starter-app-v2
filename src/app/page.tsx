@@ -299,7 +299,7 @@ export default async function Home() {
                     >
 
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue="taco" orientation="vertical">
+                        <Tabs.Root defaultValue="taco">
                           <Tabs.List aria-label="tabs example">
                             <Tabs.Trigger value="taco">{ METRIC1_BREAKDOWN1_LABEL }</Tabs.Trigger>
                             <Tabs.Trigger value="tortilla">{ METRIC1_BREAKDOWN2_LABEL }</Tabs.Trigger>
@@ -416,7 +416,7 @@ export default async function Home() {
                       </Text>
                       <TimeSeries
                         variant="bar"
-                        accentColors={["grass"]}
+                        accentColors={["grass.grass7"]}
                         chartProps={{
                           fillArea: true,
                         }}
