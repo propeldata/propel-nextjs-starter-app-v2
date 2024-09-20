@@ -52,30 +52,28 @@ const METRIC1_BREAKDOWN5_LABEL = "Items ordered"
 const METRIC1_BREAKDOWN6_FIELD = "taco_total_price"
 const METRIC1_BREAKDOWN6_LABEL = "Order dollar size"
 
-
-
 // Metrics
-let metric1 = {
-  count: {
-    dataPool: { name: DATA_POOL_NAME },
-  },
-}
-
-let metric2 = {
-  sum: {
-    dataPool: { name: DATA_POOL_NAME },
-    measure: {
-      columnName: MEASURE,
+const metrics = [
+  {
+    count: {
+      dataPool: { name: DATA_POOL_NAME },
     },
   },
-}
-
-let metric3 = {
-  custom: {
-    dataPool: { name: DATA_POOL_NAME },
-    expression: `SUM(${MEASURE}) / COUNT()`,
+  {
+    sum: {
+      dataPool: { name: DATA_POOL_NAME },
+      measure: {
+        columnName: MEASURE,
+      },
+    },
   },
-}
+  {
+    custom: {
+      dataPool: { name: DATA_POOL_NAME },
+      expression: `SUM(${MEASURE}) / COUNT()`,
+    },
+  }
+];
 
 const REFETCH_INTERVAL = 10000; // 1 second refresh interval
 
@@ -90,9 +88,6 @@ const config: ModuleOptions<"client_id"> = {
     tokenPath: process.env.TOKEN_PATH ?? "",
   },
 };
-
-// Metrics
-
 
 
 //Create the OAuth2 client
@@ -178,7 +173,7 @@ export default async function Home() {
                     localize
                     prefixValue=""
                     query={{
-                      metric: metric1,
+                      metric: metrics[0],
                       refetchInterval: REFETCH_INTERVAL,
                     }}
                   />
@@ -197,7 +192,7 @@ export default async function Home() {
                     localize
                     prefixValue="$"
                     query={{
-                      metric: metric2,
+                      metric: metrics[1],
                       refetchInterval: REFETCH_INTERVAL
                     }}
                   />
@@ -216,7 +211,7 @@ export default async function Home() {
                     localize
                     prefixValue="$"
                     query={{
-                      metric: metric3,
+                      metric: metrics[2],
                       refetchInterval: REFETCH_INTERVAL,
                     }}
                   />
@@ -235,7 +230,7 @@ export default async function Home() {
                       localize
                       prefixValue=""
                       query={{
-                        metric: metric1,
+                        metric: metrics[0],
                         refetchInterval: REFETCH_INTERVAL,
                       }}
                     />
@@ -249,7 +244,7 @@ export default async function Home() {
                       localize
                       prefixValue="$"
                       query={{
-                        metric: metric2,
+                        metric: metrics[1],
                         refetchInterval: REFETCH_INTERVAL
                       }}
                     />
@@ -263,7 +258,7 @@ export default async function Home() {
                       localize
                       prefixValue="$"
                       query={{
-                        metric: metric3,
+                        metric: metrics[2],
                         refetchInterval: REFETCH_INTERVAL,
                       }}
                     />
@@ -280,7 +275,7 @@ export default async function Home() {
                       <TimeSeries
                         variant="bar"
                         query={{
-                          metric: metric1,
+                          metric: metrics[0],
                           refetchInterval: REFETCH_INTERVAL,
                           groupBy: [METRIC1_BREAKDOWN1_FIELD],
                         }}
@@ -310,7 +305,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric1,
+                                metric: metrics[0],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN1_FIELD },
@@ -326,7 +321,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric1,
+                                metric: metrics[0],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN2_FIELD },
@@ -342,7 +337,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric1,
+                                metric: metrics[0],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN3_FIELD },
@@ -376,7 +371,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: metric1,
+                                metric: metrics[0],
                                 rowLimit: 100,
                                 dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
                                 sort: Sort.Desc,
@@ -392,7 +387,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: metric1,
+                                metric: metrics[0],
                                 rowLimit: 100,
                                 dimension: { columnName: METRIC1_BREAKDOWN5_FIELD },
                                 sort: Sort.Desc,
@@ -421,7 +416,7 @@ export default async function Home() {
                           fillArea: true,
                         }}
                         query={{
-                          metric: metric2,
+                          metric: metrics[1],
                           refetchInterval: REFETCH_INTERVAL
                         }}
                       // chartConfigProps={async (config) => {
@@ -469,7 +464,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric2,
+                                metric: metrics[1],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN1_FIELD },
@@ -485,7 +480,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric2,
+                                metric: metrics[1],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN2_FIELD },
@@ -501,7 +496,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric2,
+                                metric: metrics[1],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN3_FIELD },
@@ -535,7 +530,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: metric2,
+                                metric: metrics[1],
                                 rowLimit: 100,
                                 dimension: { columnName: METRIC1_BREAKDOWN4_FIELD },
                                 sort: Sort.Desc,
@@ -551,7 +546,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: metric2,
+                                metric: metrics[1],
                                 rowLimit: 100,
                                 dimension: { columnName: METRIC1_BREAKDOWN6_FIELD },
                                 sort: Sort.Desc,
@@ -576,7 +571,7 @@ export default async function Home() {
                       <TimeSeries
                         variant="bar"
                         query={{
-                          metric: metric3,
+                          metric: metrics[2],
                           refetchInterval: REFETCH_INTERVAL,
                           groupBy: [METRIC1_BREAKDOWN1_FIELD],
                         }}
@@ -607,7 +602,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric3,
+                                metric: metrics[2],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: METRIC1_BREAKDOWN1_FIELD },
@@ -623,7 +618,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric3,
+                                metric: metrics[2],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "tortilla_name" },
@@ -639,7 +634,7 @@ export default async function Home() {
                               variant="table"
                               headers={["", "Count"]}
                               query={{
-                                metric: metric3,
+                                metric: metrics[2],
                                 rowLimit: 100,
                                 dimensions: [
                                   { columnName: "sauce_name" },
@@ -672,7 +667,7 @@ export default async function Home() {
                                 legendPosition: "right"
                               }}
                               query={{
-                                metric: metric3,
+                                metric: metrics[2],
                                 rowLimit: 100,
                                 dimension: { columnName: "restaurant_name" },
                                 sort: Sort.Desc,
