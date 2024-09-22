@@ -1,0 +1,16 @@
+.rt-TabsTrigger::before {
+  display: none;
+}
+
+.rt-TabsTriggerInner {
+  padding: 1;
+  width: 100%;
+}
+
+.rt-BaseTabList {
+  border: none !important;
+}
+
+.rt-BaseTabList::before {
+  border: none !important;
+}

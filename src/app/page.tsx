@@ -21,28 +21,24 @@ import {
   PieChart,
   RelativeTimeRange,
 } from "@propeldata/ui-kit";
-import { gray } from "@propeldata/ui-kit/colors"
+import { gray } from "@propeldata/ui-kit/colors";
 
 // Constants
-const DATA_POOL_NAME = "TacoSoft Demo Data"
+const DATA_POOL_NAME = "TacoSoft Demo Data";
 
 // Filters
 const FILTERS = [
   { field: "restaurant_name", label: "Restaurant..." },
-  { field: "taco_name", label: "Taco..." }
-]
+  { field: "taco_name", label: "Taco..." },
+];
 
-const MEASURE = "taco_total_price"
-const METRIC_LABELS = [
-  "Orders",
-  "Revenue",
-  "Average order"
-]
+const MEASURE = "taco_total_price";
+const METRIC_LABELS = ["Orders", "Revenue", "Average order"];
 const CHART_LABELS = [
   "Orders over time",
   "Revenue over time",
-  "Average order over time"
-]
+  "Average order over time",
+];
 
 const BREAKDOWNS = [
   { field: "taco_name", label: "Taco" },
@@ -50,14 +46,14 @@ const BREAKDOWNS = [
   { field: "sauce_name", label: "Sauce" },
   { field: "restaurant_name", label: "Restaurant" },
   { field: "quantity", label: "Items ordered" },
-  { field: "taco_total_price", label: "Order dollar size" }
-]
+  { field: "taco_total_price", label: "Order dollar size" },
+];
 
 const METRIC_BREAKDOWNS = [
-  [0, 1, 2, 3, 4],  // Metric 1 breakdowns
-  [0, 1, 2, 3, 5],  // Metric 2 breakdowns
-  [0, 1, 2, 3]      // Metric 3 breakdowns
-]
+  [0, 1, 2, 3, 4], // Metric 1 breakdowns
+  [0, 1, 2, 3, 5], // Metric 2 breakdowns
+  [0, 1, 2, 3], // Metric 3 breakdowns
+];
 
 // Metrics
 const metrics = [
@@ -79,7 +75,7 @@ const metrics = [
       dataPool: { name: DATA_POOL_NAME },
       expression: `SUM(${MEASURE}) / COUNT()`,
     },
-  }
+  },
 ];
 
 const REFETCH_INTERVAL = 10000; // 1 second refresh interval
@@ -95,7 +91,6 @@ const config: ModuleOptions<"client_id"> = {
     tokenPath: process.env.TOKEN_PATH ?? "",
   },
 };
-
 
 //Create the OAuth2 client
 const oauth2Client = new ClientCredentials(config);
@@ -123,113 +118,137 @@ export default async function Home() {
               Welcome to your Propel dashboard. Here you&apos;ll find an
               overview of your data.
             </Text>
-              {/* filters and time range picker */}
-              <Flex width="100%">
-                <Flex
-                  style={{
-                    padding: "1rem",
-                    justifySelf: "start",
-                    backgroundColor: gray.gray2,
-                    gap: "16px",
-                    width: "100%"
-                  }}
-                >
-                  {FILTERS.map((filter, index) => (
-                    <SimpleFilter
-                      key={index}
-                      query={{
-                        columnName: filter.field,
-                        dataPool: { name: DATA_POOL_NAME },
-                        maxValues: 1000,
-                      }}
-                      autocompleteProps={{ placeholder: filter.label }}
-                    />
-                  ))}
-                </Flex>
-                <Flex
-                  style={{
-                    padding: "1rem",
-                    width: "100%",
-                    justifySelf: "start",
-                    backgroundColor: gray.gray2,
-                    justifyContent: "flex-end",
-                    gap: "16px",
-                  }}
+            {/* filters and time range picker */}
+            <Flex width="100%">
+              <Flex
+                style={{
+                  padding: "1rem",
+                  justifySelf: "start",
+                  backgroundColor: gray.gray2,
+                  gap: "16px",
+                  width: "100%",
+                }}
+              >
+                {FILTERS.map((filter, index) => (
+                  <SimpleFilter
+                    key={index}
+                    query={{
+                      columnName: filter.field,
+                      dataPool: { name: DATA_POOL_NAME },
+                      maxValues: 1000,
+                    }}
+                    autocompleteProps={{ placeholder: filter.label }}
+                  />
+                ))}
+              </Flex>
+              <Flex
+                style={{
+                  padding: "1rem",
+                  width: "100%",
+                  justifySelf: "start",
+                  backgroundColor: gray.gray2,
+                  justifyContent: "flex-end",
+                  gap: "16px",
+                }}
               >
                 <TimeGrainPicker
                   defaultValue={TimeSeriesGranularity.FifteenMinutes}
-                  options={[TimeSeriesGranularity.FifteenMinutes, TimeSeriesGranularity.Hour, TimeSeriesGranularity.Day, TimeSeriesGranularity.Month, TimeSeriesGranularity.Year]}
+                  options={[
+                    TimeSeriesGranularity.FifteenMinutes,
+                    TimeSeriesGranularity.Hour,
+                    TimeSeriesGranularity.Day,
+                    TimeSeriesGranularity.Month,
+                    TimeSeriesGranularity.Year,
+                  ]}
                 />
-                <TimeRangePicker
-                  defaultValue={{ value: "this-month" }}
-                />
+                <TimeRangePicker defaultValue={{ value: "this-month" }} />
               </Flex>
             </Flex>
-            {/* New row with three columns */}
-            <Grid columns={{ initial: "1", md: "3" }} gap="4" align="center">
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                width="100%"
-              >
-                <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
-                  <br />
-                  <Counter
-                    localize
-                    prefixValue=""
-                    query={{
-                      metric: metrics[0],
-                      refetchInterval: REFETCH_INTERVAL,
-                    }}
-                  />
-                </Card>
-              </Flex>
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                style={{ width: "100%" }}
-              >
-                <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC_LABELS[1]}</Text>
-                  <br />
-                  <Counter
-                    localize
-                    prefixValue="$"
-                    query={{
-                      metric: metrics[1],
-                      refetchInterval: REFETCH_INTERVAL
-                    }}
-                  />
-                </Card>
-              </Flex>
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                style={{ width: "100%" }}
-              >
-                <Card style={{ width: "100%" }}>
-                  <Text style={{ margin: 0 }}>{METRIC_LABELS[2]}</Text>
-                  <br />
-                  <Counter
-                    localize
-                    prefixValue="$"
-                    query={{
-                      metric: metrics[2],
-                      refetchInterval: REFETCH_INTERVAL,
-                    }}
-                  />
-                </Card>
-              </Flex>
-            </Grid>
             <Tabs.Root
               defaultValue={METRIC_LABELS[0]}
+              style={{ border: "none", width: "100%" }}
             >
-              <Tabs.List>
-                <Tabs.Trigger value={METRIC_LABELS[0]}>
+              {/* New row with three columns */}
+              <Tabs.List style={{ padding: 0, width: "100%" }}>
+                <Grid
+                  columns={{ initial: "1", md: "3" }}
+                  gap="4"
+                  align="center"
+                  width="100%"
+                >
+                  <Tabs.Trigger
+                    style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }}
+                    value={METRIC_LABELS[0]}
+                  >
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      width="100%"
+                    >
+                      <Card style={{ width: "100%" }}>
+                        <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
+                        <br />
+                        <Counter
+                          localize
+                          prefixValue=""
+                          query={{
+                            metric: metrics[0],
+                            refetchInterval: REFETCH_INTERVAL,
+                          }}
+                        />
+                      </Card>
+                    </Flex>
+                  </Tabs.Trigger>
+                  <Tabs.Trigger
+                    style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }}
+                    value={METRIC_LABELS[1]}
+                  >
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      width="100%"
+                    >
+                      <Card style={{ width: "100%" }}>
+                        <Text style={{ margin: 0 }}>{METRIC_LABELS[1]}</Text>
+                        <br />
+                        <Counter
+                          localize
+                          prefixValue="$"
+                          query={{
+                            metric: metrics[1],
+                            refetchInterval: REFETCH_INTERVAL,
+                          }}
+                        />
+                      </Card>
+                    </Flex>
+                  </Tabs.Trigger>
+                  <Tabs.Trigger style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }} value={METRIC_LABELS[2]}>
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      width="100%"
+                    >
+                      <Card style={{ width: "100%" }}>
+                        <Text style={{ margin: 0 }}>{METRIC_LABELS[2]}</Text>
+                        <br />
+                        <Counter
+                          localize
+                          prefixValue="$"
+                          query={{
+                            metric: metrics[2],
+                            refetchInterval: REFETCH_INTERVAL,
+                          }}
+                        />
+                      </Card>
+                    </Flex>
+                  </Tabs.Trigger>
+                </Grid>
+              </Tabs.List>
+
+              {/* <Tabs.Trigger value={METRIC_LABELS[0]}>
                   <Card style={{ width: "100%" }}>
                     <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
                     <br />
@@ -270,10 +289,13 @@ export default async function Home() {
                       }}
                     />
                   </Card>
-                </Tabs.Trigger>
-              </Tabs.List>
+                </Tabs.Trigger> */}
               <Tabs.Content value={METRIC_LABELS[0]}>
-                <Flex direction="column" gap="4" style={{ width: "100%", paddingTop:"16px" }}>
+                <Flex
+                  direction="column"
+                  gap="4"
+                  style={{ width: "100%", paddingTop: "16px" }}
+                >
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
@@ -292,23 +314,34 @@ export default async function Home() {
                       />
                     </Card>
                   </Flex>
-                  <Grid columns={{ initial: "1", md: "2" }} gap="4" align="center">
+                  <Grid
+                    columns={{ initial: "1", md: "2" }}
+                    gap="4"
+                    align="center"
+                  >
                     <Flex
                       direction="column"
                       align="center"
                       justify="center"
                       width="100%"
                     >
-
                       <Card style={{ width: "100%" }}>
                         <Tabs.Root defaultValue={BREAKDOWNS[0].label}>
                           <Tabs.List aria-label="tabs example">
                             {METRIC_BREAKDOWNS[0].slice(0, 3).map((index) => (
-                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                              <Tabs.Trigger
+                                key={index}
+                                value={BREAKDOWNS[index].label}
+                              >
+                                {BREAKDOWNS[index].label}
+                              </Tabs.Trigger>
                             ))}
                           </Tabs.List>
                           {METRIC_BREAKDOWNS[0].slice(0, 3).map((index) => (
-                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                            <Tabs.Content
+                              key={index}
+                              value={BREAKDOWNS[index].label}
+                            >
                               <Leaderboard
                                 variant="table"
                                 headers={["", "Count"]}
@@ -319,7 +352,10 @@ export default async function Home() {
                                     { columnName: BREAKDOWNS[index].field },
                                   ],
                                   sort: Sort.Desc,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                  timeRange: {
+                                    relative: RelativeTimeRange.LastNDays,
+                                    n: 30,
+                                  },
                                   refetchInterval: REFETCH_INTERVAL,
                                 }}
                               />
@@ -335,24 +371,37 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
+                        <Tabs.Root
+                          defaultValue={BREAKDOWNS[3].label}
+                          orientation="vertical"
+                        >
                           <Tabs.List aria-label="tabs example">
                             {METRIC_BREAKDOWNS[0].slice(3, 5).map((index) => (
-                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                              <Tabs.Trigger
+                                key={index}
+                                value={BREAKDOWNS[index].label}
+                              >
+                                {BREAKDOWNS[index].label}
+                              </Tabs.Trigger>
                             ))}
                           </Tabs.List>
                           {METRIC_BREAKDOWNS[0].slice(3, 5).map((index) => (
-                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                            <Tabs.Content
+                              key={index}
+                              value={BREAKDOWNS[index].label}
+                            >
                               <PieChart
                                 variant="pie"
                                 chartProps={{
                                   hideTotal: true,
-                                  legendPosition: "right"
+                                  legendPosition: "right",
                                 }}
                                 query={{
                                   metric: metrics[0],
                                   rowLimit: 100,
-                                  dimension: { columnName: BREAKDOWNS[index].field },
+                                  dimension: {
+                                    columnName: BREAKDOWNS[index].field,
+                                  },
                                   sort: Sort.Desc,
                                   refetchInterval: REFETCH_INTERVAL,
                                 }}
@@ -360,14 +409,17 @@ export default async function Home() {
                             </Tabs.Content>
                           ))}
                         </Tabs.Root>
-
                       </Card>
                     </Flex>
                   </Grid>
                 </Flex>
               </Tabs.Content>
               <Tabs.Content value={METRIC_LABELS[1]}>
-                <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
+                <Flex
+                  direction="column"
+                  gap="4"
+                  style={{ width: "100%", paddingTop: "16px" }}
+                >
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
@@ -381,28 +433,42 @@ export default async function Home() {
                         }}
                         query={{
                           metric: metrics[1],
-                          refetchInterval: REFETCH_INTERVAL
+                          refetchInterval: REFETCH_INTERVAL,
                         }}
                       />
                     </Card>
                   </Flex>
-                  <Grid columns={{ initial: "1", md: "2" }} gap="4" align="center">
+                  <Grid
+                    columns={{ initial: "1", md: "2" }}
+                    gap="4"
+                    align="center"
+                  >
                     <Flex
                       direction="column"
                       align="center"
                       justify="center"
                       width="100%"
                     >
-
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue={BREAKDOWNS[0].label} orientation="vertical">
+                        <Tabs.Root
+                          defaultValue={BREAKDOWNS[0].label}
+                          orientation="vertical"
+                        >
                           <Tabs.List aria-label="tabs example">
                             {METRIC_BREAKDOWNS[1].slice(0, 3).map((index) => (
-                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                              <Tabs.Trigger
+                                key={index}
+                                value={BREAKDOWNS[index].label}
+                              >
+                                {BREAKDOWNS[index].label}
+                              </Tabs.Trigger>
                             ))}
                           </Tabs.List>
                           {METRIC_BREAKDOWNS[1].slice(0, 3).map((index) => (
-                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                            <Tabs.Content
+                              key={index}
+                              value={BREAKDOWNS[index].label}
+                            >
                               <Leaderboard
                                 variant="table"
                                 headers={["", "Count"]}
@@ -413,7 +479,10 @@ export default async function Home() {
                                     { columnName: BREAKDOWNS[index].field },
                                   ],
                                   sort: Sort.Desc,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                  timeRange: {
+                                    relative: RelativeTimeRange.LastNDays,
+                                    n: 30,
+                                  },
                                   refetchInterval: REFETCH_INTERVAL,
                                 }}
                               />
@@ -429,17 +498,24 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
+                        <Tabs.Root
+                          defaultValue={BREAKDOWNS[3].label}
+                          orientation="vertical"
+                        >
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value={BREAKDOWNS[3].label}>{BREAKDOWNS[3].label}</Tabs.Trigger>
-                            <Tabs.Trigger value={BREAKDOWNS[5].label}>{BREAKDOWNS[5].label}</Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[3].label}>
+                              {BREAKDOWNS[3].label}
+                            </Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[5].label}>
+                              {BREAKDOWNS[5].label}
+                            </Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value={BREAKDOWNS[3].label}>
                             <PieChart
                               variant="pie"
                               chartProps={{
                                 hideTotal: true,
-                                legendPosition: "right"
+                                legendPosition: "right",
                               }}
                               query={{
                                 metric: metrics[1],
@@ -455,7 +531,7 @@ export default async function Home() {
                               variant="pie"
                               chartProps={{
                                 hideTotal: true,
-                                legendPosition: "right"
+                                legendPosition: "right",
                               }}
                               query={{
                                 metric: metrics[1],
@@ -467,14 +543,17 @@ export default async function Home() {
                             />
                           </Tabs.Content>
                         </Tabs.Root>
-
                       </Card>
                     </Flex>
                   </Grid>
                 </Flex>
               </Tabs.Content>
               <Tabs.Content value={METRIC_LABELS[2]}>
-                <Flex direction="column" gap="4" style={{ width: "100%", paddingTop: "16px" }}>
+                <Flex
+                  direction="column"
+                  gap="4"
+                  style={{ width: "100%", paddingTop: "16px" }}
+                >
                   <Flex direction="column" style={{ width: "100%" }}>
                     <Card>
                       <Text size="3" weight="bold" style={{ margin: 0 }}>
@@ -494,23 +573,37 @@ export default async function Home() {
                       />
                     </Card>
                   </Flex>
-                  <Grid columns={{ initial: "1", md: "2" }} gap="4" align="center">
+                  <Grid
+                    columns={{ initial: "1", md: "2" }}
+                    gap="4"
+                    align="center"
+                  >
                     <Flex
                       direction="column"
                       align="center"
                       justify="center"
                       width="100%"
                     >
-
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue={BREAKDOWNS[0].label} orientation="vertical">
+                        <Tabs.Root
+                          defaultValue={BREAKDOWNS[0].label}
+                          orientation="vertical"
+                        >
                           <Tabs.List aria-label="tabs example">
                             {METRIC_BREAKDOWNS[2].slice(0, 3).map((index) => (
-                              <Tabs.Trigger key={index} value={BREAKDOWNS[index].label}>{BREAKDOWNS[index].label}</Tabs.Trigger>
+                              <Tabs.Trigger
+                                key={index}
+                                value={BREAKDOWNS[index].label}
+                              >
+                                {BREAKDOWNS[index].label}
+                              </Tabs.Trigger>
                             ))}
                           </Tabs.List>
                           {METRIC_BREAKDOWNS[2].slice(0, 3).map((index) => (
-                            <Tabs.Content key={index} value={BREAKDOWNS[index].label}>
+                            <Tabs.Content
+                              key={index}
+                              value={BREAKDOWNS[index].label}
+                            >
                               <Leaderboard
                                 variant="table"
                                 headers={["", "Count"]}
@@ -522,7 +615,10 @@ export default async function Home() {
                                   ],
                                   sort: Sort.Desc,
                                   refetchInterval: REFETCH_INTERVAL,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
+                                  timeRange: {
+                                    relative: RelativeTimeRange.LastNDays,
+                                    n: 30,
+                                  },
                                 }}
                               />
                             </Tabs.Content>
@@ -537,16 +633,21 @@ export default async function Home() {
                       style={{ width: "100%" }}
                     >
                       <Card style={{ width: "100%" }}>
-                        <Tabs.Root defaultValue={BREAKDOWNS[3].label} orientation="vertical">
+                        <Tabs.Root
+                          defaultValue={BREAKDOWNS[3].label}
+                          orientation="vertical"
+                        >
                           <Tabs.List aria-label="tabs example">
-                            <Tabs.Trigger value={BREAKDOWNS[3].label}>{BREAKDOWNS[3].label}</Tabs.Trigger>
+                            <Tabs.Trigger value={BREAKDOWNS[3].label}>
+                              {BREAKDOWNS[3].label}
+                            </Tabs.Trigger>
                           </Tabs.List>
                           <Tabs.Content value={BREAKDOWNS[3].label}>
                             <PieChart
                               variant="pie"
                               chartProps={{
                                 hideTotal: true,
-                                legendPosition: "right"
+                                legendPosition: "right",
                               }}
                               query={{
                                 metric: metrics[2],
