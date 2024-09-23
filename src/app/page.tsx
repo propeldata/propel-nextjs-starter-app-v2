@@ -19,7 +19,6 @@ import {
   Tabs,
   Counter,
   PieChart,
-  RelativeTimeRange,
 } from "@propeldata/ui-kit";
 import { gray } from "@propeldata/ui-kit/colors"
 
@@ -319,7 +318,6 @@ export default async function Home() {
                                     { columnName: BREAKDOWNS[index].field },
                                   ],
                                   sort: Sort.Desc,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                                   refetchInterval: REFETCH_INTERVAL,
                                 }}
                               />
@@ -413,7 +411,6 @@ export default async function Home() {
                                     { columnName: BREAKDOWNS[index].field },
                                   ],
                                   sort: Sort.Desc,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                                   refetchInterval: REFETCH_INTERVAL,
                                 }}
                               />
@@ -522,7 +519,6 @@ export default async function Home() {
                                   ],
                                   sort: Sort.Desc,
                                   refetchInterval: REFETCH_INTERVAL,
-                                  timeRange: { relative: RelativeTimeRange.LastNDays, n: 30 },
                                 }}
                               />
                             </Tabs.Content>
