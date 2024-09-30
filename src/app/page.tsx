@@ -176,7 +176,7 @@ export default async function Home() {
                   align="center"
                   width="100%"
                 >
-                  <Tabs.Trigger
+                  <Tabs.Card
                     style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }}
                     value={METRIC_LABELS[0]}
                   >
@@ -199,8 +199,8 @@ export default async function Home() {
                         />
                       </Card>
                     </Flex>
-                  </Tabs.Trigger>
-                  <Tabs.Trigger
+                  </Tabs.Card>
+                  <Tabs.Card
                     style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }}
                     value={METRIC_LABELS[1]}
                   >
@@ -223,8 +223,8 @@ export default async function Home() {
                         />
                       </Card>
                     </Flex>
-                  </Tabs.Trigger>
-                  <Tabs.Trigger style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }} value={METRIC_LABELS[2]}>
+                  </Tabs.Card>
+                  <Tabs.Card style={{ height: "100%", width: "100%", padding: 0, cursor: "pointer" }} value={METRIC_LABELS[2]}>
                     <Flex
                       direction="column"
                       align="center"
@@ -244,52 +244,9 @@ export default async function Home() {
                         />
                       </Card>
                     </Flex>
-                  </Tabs.Trigger>
+                  </Tabs.Card>
                 </Grid>
               </Tabs.List>
-
-              {/* <Tabs.Trigger value={METRIC_LABELS[0]}>
-                  <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC_LABELS[0]}</Text>
-                    <br />
-                    <Counter
-                      localize
-                      prefixValue=""
-                      query={{
-                        metric: metrics[0],
-                        refetchInterval: REFETCH_INTERVAL,
-                      }}
-                    />
-                  </Card>
-                </Tabs.Trigger>
-                <Tabs.Trigger value={METRIC_LABELS[1]}>
-                  <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC_LABELS[1]}</Text>
-                    <br />
-                    <Counter
-                      localize
-                      prefixValue="$"
-                      query={{
-                        metric: metrics[1],
-                        refetchInterval: REFETCH_INTERVAL
-                      }}
-                    />
-                  </Card>
-                </Tabs.Trigger>
-                <Tabs.Trigger value={METRIC_LABELS[2]}>
-                  <Card style={{ width: "100%" }}>
-                    <Text style={{ margin: 0 }}>{METRIC_LABELS[2]}</Text>
-                    <br />
-                    <Counter
-                      localize
-                      prefixValue="$"
-                      query={{
-                        metric: metrics[2],
-                        refetchInterval: REFETCH_INTERVAL,
-                      }}
-                    />
-                  </Card>
-                </Tabs.Trigger> */}
               <Tabs.Content value={METRIC_LABELS[0]}>
                 <Flex
                   direction="column"
