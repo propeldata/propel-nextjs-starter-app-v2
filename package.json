@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@propeldata/ui-kit": "^0.0.0-canary-20240930220122",
+    "@propeldata/ui-kit": "^0.0.0-canary-20241001161523",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/themes": "^3.1.3",
