@@ -19,11 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider
-          accentColor="violet"
+          accentColor="indigo"
           grayColor="slate"
           panelBackground="solid"
           scaling="100%"
-          radius="none"
+          radius="small"
         >
           {children}
         </ThemeProvider>
